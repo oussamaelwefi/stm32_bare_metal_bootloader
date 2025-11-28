@@ -1,0 +1,2 @@
+../Src/gpio.c:7:6:button_init	4	static
+../Src/gpio.c:19:6:get_btn_state	4	static

@@ -1,0 +1,2158 @@
+
+Bootloader2.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000af4  08000188  08000188  00001188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000c7c  08000c7c  0000200c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  08000c7c  08000c7c  0000200c  2**0
+                  CONTENTS, READONLY
+  4 .ARM          00000000  08000c7c  08000c7c  0000200c  2**0
+                  CONTENTS, READONLY
+  5 .preinit_array 00000000  08000c7c  08000c7c  0000200c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000c7c  08000c7c  00001c7c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08000c80  08000c80  00001c80  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         0000000c  20000000  08000c84  00002000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .ccmram       00000000  10000000  10000000  0000200c  2**0
+                  CONTENTS
+ 10 .bss          0000011c  2000000c  2000000c  0000200c  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000600  20000128  20000128  0000200c  2**0
+                  ALLOC
+ 12 .ARM.attributes 00000030  00000000  00000000  0000200c  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   0000152c  00000000  00000000  0000203c  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 00000681  00000000  00000000  00003568  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000190  00000000  00000000  00003bf0  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 00000119  00000000  00000000  00003d80  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  000191eb  00000000  00000000  00003e99  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   00002061  00000000  00000000  0001d084  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    0008c87d  00000000  00000000  0001f0e5  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  000ab962  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  0000051c  00000000  00000000  000ab9a8  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 00000062  00000000  00000000  000abec4  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	@ (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	@ (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	2000000c 	.word	0x2000000c
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	08000c64 	.word	0x08000c64
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	@ (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	@ (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	@ (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000010 	.word	0x20000010
+ 80001c4:	08000c64 	.word	0x08000c64
+
+080001c8 <get_btn_state>:
+
+}
+
+
+bool get_btn_state(void)
+{
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	af00      	add	r7, sp, #0
+
+	/*Note : BTN is active low*/
+
+	/*Check if button is pressed*/
+	if(GPIOA->IDR & BTN_PIN)
+ 80001cc:	4b06      	ldr	r3, [pc, #24]	@ (80001e8 <get_btn_state+0x20>)
+ 80001ce:	691b      	ldr	r3, [r3, #16]
+ 80001d0:	f003 0301 	and.w	r3, r3, #1
+ 80001d4:	2b00      	cmp	r3, #0
+ 80001d6:	d001      	beq.n	80001dc <get_btn_state+0x14>
+	{
+		return true;
+ 80001d8:	2301      	movs	r3, #1
+ 80001da:	e000      	b.n	80001de <get_btn_state+0x16>
+	}
+	else
+	{
+		return false;
+ 80001dc:	2300      	movs	r3, #0
+	}
+
+}
+ 80001de:	4618      	mov	r0, r3
+ 80001e0:	46bd      	mov	sp, r7
+ 80001e2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80001e6:	4770      	bx	lr
+ 80001e8:	40020000 	.word	0x40020000
+
+080001ec <main>:
+uint32_t uwCRCValue = 0xff; // Initial value
+
+uint8_t supported_commands[] = {0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a};
+
+int main(void)
+{
+ 80001ec:	b580      	push	{r7, lr}
+ 80001ee:	af00      	add	r7, sp, #0
+	//uart3_init();
+	uart_init();
+ 80001f0:	f000 fbdc 	bl	80009ac <uart_init>
+	systick_msec_delay(1000);
+ 80001f4:	f44f 707a 	mov.w	r0, #1000	@ 0x3e8
+ 80001f8:	f000 fba8 	bl	800094c <systick_msec_delay>
+
+	if(get_btn_state())
+ 80001fc:	f7ff ffe4 	bl	80001c8 <get_btn_state>
+ 8000200:	4603      	mov	r3, r0
+ 8000202:	2b00      	cmp	r3, #0
+ 8000204:	d002      	beq.n	800020c <main+0x20>
+		bootloader_uart_read_data();
+ 8000206:	f000 f823 	bl	8000250 <bootloader_uart_read_data>
+ 800020a:	e001      	b.n	8000210 <main+0x24>
+	else
+		bootloader_jump_to_user_app();
+ 800020c:	f000 f804 	bl	8000218 <bootloader_jump_to_user_app>
+ 8000210:	2300      	movs	r3, #0
+}
+ 8000212:	4618      	mov	r0, r3
+ 8000214:	bd80      	pop	{r7, pc}
+	...
+
+08000218 <bootloader_jump_to_user_app>:
+
+void bootloader_jump_to_user_app(void)
+{
+ 8000218:	b580      	push	{r7, lr}
+ 800021a:	b084      	sub	sp, #16
+ 800021c:	af00      	add	r7, sp, #0
+    // Function pointer to the user application's reset handler
+    void (*app_reset_handler)(void);
+
+    // 1. Get the Main Stack Pointer (MSP) value from the user application's vector table
+    // The MSP is the first 32-bit word at the user application's flash base address
+    uint32_t msp_value = *((volatile uint32_t *)FLASH_SECTOR2_BASE_ADDRESS);
+ 800021e:	4b0a      	ldr	r3, [pc, #40]	@ (8000248 <bootloader_jump_to_user_app+0x30>)
+ 8000220:	681b      	ldr	r3, [r3, #0]
+ 8000222:	60fb      	str	r3, [r7, #12]
+ 8000224:	68fb      	ldr	r3, [r7, #12]
+ 8000226:	603b      	str	r3, [r7, #0]
+  \details Assigns the given value to the Main Stack Pointer (MSP).
+  \param [in]    topOfMainStack  Main Stack Pointer value to set
+ */
+__STATIC_FORCEINLINE void __set_MSP(uint32_t topOfMainStack)
+{
+  __ASM volatile ("MSR msp, %0" : : "r" (topOfMainStack) : );
+ 8000228:	683b      	ldr	r3, [r7, #0]
+ 800022a:	f383 8808 	msr	MSP, r3
+}
+ 800022e:	bf00      	nop
+    // 2. Set the MSP for the user application using CMSIS API
+    __set_MSP(msp_value);
+
+    // 3. Get the Reset Handler address from the user application's vector table
+    // The Reset Handler address is the second 32-bit word (+4 bytes offset)
+    uint32_t reset_handler_address = *((volatile uint32_t *)(FLASH_SECTOR2_BASE_ADDRESS + 4));
+ 8000230:	4b06      	ldr	r3, [pc, #24]	@ (800024c <bootloader_jump_to_user_app+0x34>)
+ 8000232:	681b      	ldr	r3, [r3, #0]
+ 8000234:	60bb      	str	r3, [r7, #8]
+
+    // 4. Set up the function pointer to the user application's Reset Handler
+    app_reset_handler = (void(*)(void))reset_handler_address;
+ 8000236:	68bb      	ldr	r3, [r7, #8]
+ 8000238:	607b      	str	r3, [r7, #4]
+
+    // 5. Jump to the user application's Reset Handler
+    app_reset_handler();
+ 800023a:	687b      	ldr	r3, [r7, #4]
+ 800023c:	4798      	blx	r3
+}
+ 800023e:	bf00      	nop
+ 8000240:	3710      	adds	r7, #16
+ 8000242:	46bd      	mov	sp, r7
+ 8000244:	bd80      	pop	{r7, pc}
+ 8000246:	bf00      	nop
+ 8000248:	08008000 	.word	0x08008000
+ 800024c:	08008004 	.word	0x08008004
+
+08000250 <bootloader_uart_read_data>:
+
+void bootloader_uart_read_data(void)
+{
+ 8000250:	b590      	push	{r4, r7, lr}
+ 8000252:	b083      	sub	sp, #12
+ 8000254:	af00      	add	r7, sp, #0
+    uint8_t rcv_len = 0;
+ 8000256:	2300      	movs	r3, #0
+ 8000258:	71bb      	strb	r3, [r7, #6]
+
+    // This loop constantly waits for commands
+    while(1)
+    {
+        // Clear the buffer for a new command
+        memset(bl_rx_buffer, 0, MAX_BL_RX_BUFFER_LENGTH);
+ 800025a:	22ff      	movs	r2, #255	@ 0xff
+ 800025c:	2100      	movs	r1, #0
+ 800025e:	4829      	ldr	r0, [pc, #164]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 8000260:	f000 fcd3 	bl	8000c0a <memset>
+
+        // 1. Read the first byte, which is the "length to follow"
+        bl_rx_buffer[0] = uart_read();
+ 8000264:	f000 fc38 	bl	8000ad8 <uart_read>
+ 8000268:	4603      	mov	r3, r0
+ 800026a:	461a      	mov	r2, r3
+ 800026c:	4b25      	ldr	r3, [pc, #148]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 800026e:	701a      	strb	r2, [r3, #0]
+        rcv_len=bl_rx_buffer[0];
+ 8000270:	4b24      	ldr	r3, [pc, #144]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 8000272:	781b      	ldrb	r3, [r3, #0]
+ 8000274:	71bb      	strb	r3, [r7, #6]
+        // 2. Read the remaining bytes into the buffer, starting from the second byte
+        // The total number of bytes to read is rcv_len
+        // The command code and payload are part of rcv_len
+        for (uint8_t i = 0; i < rcv_len; i++)
+ 8000276:	2300      	movs	r3, #0
+ 8000278:	71fb      	strb	r3, [r7, #7]
+ 800027a:	e00a      	b.n	8000292 <bootloader_uart_read_data+0x42>
+        {
+            bl_rx_buffer[i+1] = uart_read();
+ 800027c:	79fb      	ldrb	r3, [r7, #7]
+ 800027e:	1c5c      	adds	r4, r3, #1
+ 8000280:	f000 fc2a 	bl	8000ad8 <uart_read>
+ 8000284:	4603      	mov	r3, r0
+ 8000286:	461a      	mov	r2, r3
+ 8000288:	4b1e      	ldr	r3, [pc, #120]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 800028a:	551a      	strb	r2, [r3, r4]
+        for (uint8_t i = 0; i < rcv_len; i++)
+ 800028c:	79fb      	ldrb	r3, [r7, #7]
+ 800028e:	3301      	adds	r3, #1
+ 8000290:	71fb      	strb	r3, [r7, #7]
+ 8000292:	79fa      	ldrb	r2, [r7, #7]
+ 8000294:	79bb      	ldrb	r3, [r7, #6]
+ 8000296:	429a      	cmp	r2, r3
+ 8000298:	d3f0      	bcc.n	800027c <bootloader_uart_read_data+0x2c>
+        }
+
+        // 3. Decode the command code using a switch statement
+        // The command code is the first byte of the data payload
+        switch(bl_rx_buffer[1])
+ 800029a:	4b1a      	ldr	r3, [pc, #104]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 800029c:	785b      	ldrb	r3, [r3, #1]
+ 800029e:	3b51      	subs	r3, #81	@ 0x51
+ 80002a0:	2b06      	cmp	r3, #6
+ 80002a2:	d82d      	bhi.n	8000300 <bootloader_uart_read_data+0xb0>
+ 80002a4:	a201      	add	r2, pc, #4	@ (adr r2, 80002ac <bootloader_uart_read_data+0x5c>)
+ 80002a6:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 80002aa:	bf00      	nop
+ 80002ac:	080002c9 	.word	0x080002c9
+ 80002b0:	080002d1 	.word	0x080002d1
+ 80002b4:	080002d9 	.word	0x080002d9
+ 80002b8:	080002e1 	.word	0x080002e1
+ 80002bc:	080002e9 	.word	0x080002e9
+ 80002c0:	080002f1 	.word	0x080002f1
+ 80002c4:	080002f9 	.word	0x080002f9
+        {
+            case BL_GET_VER:
+                bootloader_handle_get_ver(bl_rx_buffer);
+ 80002c8:	480e      	ldr	r0, [pc, #56]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002ca:	f000 f81d 	bl	8000308 <bootloader_handle_get_ver>
+                break;
+ 80002ce:	e018      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            // Add other command cases here
+            case BL_GET_HELP:
+            	bootloader_handle_gethelp(bl_rx_buffer);
+ 80002d0:	480c      	ldr	r0, [pc, #48]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002d2:	f000 f84d 	bl	8000370 <bootloader_handle_gethelp>
+                break;
+ 80002d6:	e014      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            case BL_GET_CID:
+            	bootloader_handle_getcid(bl_rx_buffer);
+ 80002d8:	480a      	ldr	r0, [pc, #40]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002da:	f000 f8c5 	bl	8000468 <bootloader_handle_getcid>
+            	break;
+ 80002de:	e010      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            case BL_GET_RDP_STATUS:
+            	bootloader_handle_getrdp(bl_rx_buffer);
+ 80002e0:	4808      	ldr	r0, [pc, #32]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002e2:	f000 f8ff 	bl	80004e4 <bootloader_handle_getrdp>
+            	break;
+ 80002e6:	e00c      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            case BL_GO_TO_ADDR:
+            	bootloader_handle_go_to_addr(bl_rx_buffer);
+ 80002e8:	4806      	ldr	r0, [pc, #24]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002ea:	f000 f967 	bl	80005bc <bootloader_handle_go_to_addr>
+            	break;
+ 80002ee:	e008      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            case BL_FLASH_ERASE:
+            	bootloader_handle_flash_erase(bl_rx_buffer);
+ 80002f0:	4804      	ldr	r0, [pc, #16]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002f2:	f000 fa4d 	bl	8000790 <bootloader_handle_flash_erase>
+            	break;
+ 80002f6:	e004      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            case BL_MEM_WRITE:
+            	bootloader_handle_mem_write(bl_rx_buffer);
+ 80002f8:	4802      	ldr	r0, [pc, #8]	@ (8000304 <bootloader_uart_read_data+0xb4>)
+ 80002fa:	f000 facb 	bl	8000894 <bootloader_handle_mem_write>
+            	break;
+ 80002fe:	e000      	b.n	8000302 <bootloader_uart_read_data+0xb2>
+            default:
+                // Handle invalid command
+                // You can add code here to send a NACK or an error message
+                break;
+ 8000300:	bf00      	nop
+        memset(bl_rx_buffer, 0, MAX_BL_RX_BUFFER_LENGTH);
+ 8000302:	e7aa      	b.n	800025a <bootloader_uart_read_data+0xa>
+ 8000304:	20000028 	.word	0x20000028
+
+08000308 <bootloader_handle_get_ver>:
+        }
+    }
+}
+
+void bootloader_handle_get_ver(uint8_t *pBuffer)
+{
+ 8000308:	b580      	push	{r7, lr}
+ 800030a:	b088      	sub	sp, #32
+ 800030c:	af00      	add	r7, sp, #0
+ 800030e:	6078      	str	r0, [r7, #4]
+    uint32_t command_packet_len = pBuffer[0]+1; // Total length of the command packet
+ 8000310:	687b      	ldr	r3, [r7, #4]
+ 8000312:	781b      	ldrb	r3, [r3, #0]
+ 8000314:	3301      	adds	r3, #1
+ 8000316:	61fb      	str	r3, [r7, #28]
+    uint32_t crc_value = 0;
+ 8000318:	2300      	movs	r3, #0
+ 800031a:	61bb      	str	r3, [r7, #24]
+    uint32_t calculated_crc = 0;
+ 800031c:	2300      	movs	r3, #0
+ 800031e:	617b      	str	r3, [r7, #20]
+    uint8_t bl_version = 0;
+ 8000320:	2300      	movs	r3, #0
+ 8000322:	73fb      	strb	r3, [r7, #15]
+
+    // 1. Verify the CRC of the received command packet
+    // The CRC to be verified is located at the end of the packet
+    crc_value = *(uint32_t *)(pBuffer + command_packet_len - 4);
+ 8000324:	69fb      	ldr	r3, [r7, #28]
+ 8000326:	3b04      	subs	r3, #4
+ 8000328:	687a      	ldr	r2, [r7, #4]
+ 800032a:	4413      	add	r3, r2
+ 800032c:	681b      	ldr	r3, [r3, #0]
+ 800032e:	61bb      	str	r3, [r7, #24]
+
+    // The data length for CRC calculation is the total length minus the 4 CRC bytes
+    uint32_t data_len = command_packet_len - 4;
+ 8000330:	69fb      	ldr	r3, [r7, #28]
+ 8000332:	3b04      	subs	r3, #4
+ 8000334:	613b      	str	r3, [r7, #16]
+
+    calculated_crc = bootloader_verify_crc(pBuffer, data_len, crc_value);
+ 8000336:	69ba      	ldr	r2, [r7, #24]
+ 8000338:	6939      	ldr	r1, [r7, #16]
+ 800033a:	6878      	ldr	r0, [r7, #4]
+ 800033c:	f000 f846 	bl	80003cc <bootloader_verify_crc>
+ 8000340:	6178      	str	r0, [r7, #20]
+
+    if (calculated_crc == VERIFY_CRC_SUCCESS)
+ 8000342:	697b      	ldr	r3, [r7, #20]
+ 8000344:	2b00      	cmp	r3, #0
+ 8000346:	d10d      	bne.n	8000364 <bootloader_handle_get_ver+0x5c>
+    {
+        // 2. Checksum is correct, so send an ACK
+        // The reply for this cogmmand is 1 byte (the version number)
+        bootloader_send_ack(1);
+ 8000348:	2001      	movs	r0, #1
+ 800034a:	f000 fc13 	bl	8000b74 <bootloader_send_ack>
+
+        // 3. Get the bootloader version
+        bl_version = get_bootloader_version();
+ 800034e:	f000 f873 	bl	8000438 <get_bootloader_version>
+ 8000352:	4603      	mov	r3, r0
+ 8000354:	73fb      	strb	r3, [r7, #15]
+
+        // 4. Send the reply back to the host
+        bootloader_uart_write_data(&bl_version, 1);
+ 8000356:	f107 030f 	add.w	r3, r7, #15
+ 800035a:	2101      	movs	r1, #1
+ 800035c:	4618      	mov	r0, r3
+ 800035e:	f000 fbcf 	bl	8000b00 <bootloader_uart_write_data>
+    else
+    {
+        // 5. Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 8000362:	e001      	b.n	8000368 <bootloader_handle_get_ver+0x60>
+        bootloader_send_nack();
+ 8000364:	f000 fbf2 	bl	8000b4c <bootloader_send_nack>
+}
+ 8000368:	bf00      	nop
+ 800036a:	3720      	adds	r7, #32
+ 800036c:	46bd      	mov	sp, r7
+ 800036e:	bd80      	pop	{r7, pc}
+
+08000370 <bootloader_handle_gethelp>:
+
+void bootloader_handle_gethelp(uint8_t *pBuffer)
+{
+ 8000370:	b580      	push	{r7, lr}
+ 8000372:	b086      	sub	sp, #24
+ 8000374:	af00      	add	r7, sp, #0
+ 8000376:	6078      	str	r0, [r7, #4]
+    uint32_t command_packet_len = pBuffer[0] + 1; // Total length of the command packet
+ 8000378:	687b      	ldr	r3, [r7, #4]
+ 800037a:	781b      	ldrb	r3, [r3, #0]
+ 800037c:	3301      	adds	r3, #1
+ 800037e:	617b      	str	r3, [r7, #20]
+    uint32_t crc_value = 0;
+ 8000380:	2300      	movs	r3, #0
+ 8000382:	613b      	str	r3, [r7, #16]
+    uint32_t calculated_crc = 0;
+ 8000384:	2300      	movs	r3, #0
+ 8000386:	60fb      	str	r3, [r7, #12]
+
+    // 1. Verify the CRC of the received command packet
+    // The CRC to be verified is located at the end of the packet
+    crc_value = *((uint32_t *)(pBuffer + command_packet_len - 4));
+ 8000388:	697b      	ldr	r3, [r7, #20]
+ 800038a:	3b04      	subs	r3, #4
+ 800038c:	687a      	ldr	r2, [r7, #4]
+ 800038e:	4413      	add	r3, r2
+ 8000390:	681b      	ldr	r3, [r3, #0]
+ 8000392:	613b      	str	r3, [r7, #16]
+
+    // The data length for CRC calculation is the total length minus the 4 CRC bytes
+    uint32_t data_len = command_packet_len - 4;
+ 8000394:	697b      	ldr	r3, [r7, #20]
+ 8000396:	3b04      	subs	r3, #4
+ 8000398:	60bb      	str	r3, [r7, #8]
+
+    calculated_crc = bootloader_verify_crc(pBuffer, data_len, crc_value);
+ 800039a:	693a      	ldr	r2, [r7, #16]
+ 800039c:	68b9      	ldr	r1, [r7, #8]
+ 800039e:	6878      	ldr	r0, [r7, #4]
+ 80003a0:	f000 f814 	bl	80003cc <bootloader_verify_crc>
+ 80003a4:	60f8      	str	r0, [r7, #12]
+
+    if (calculated_crc == VERIFY_CRC_SUCCESS)
+ 80003a6:	68fb      	ldr	r3, [r7, #12]
+ 80003a8:	2b00      	cmp	r3, #0
+ 80003aa:	d107      	bne.n	80003bc <bootloader_handle_gethelp+0x4c>
+    {
+        // 2. Checksum is correct, so send an ACK
+        // The reply for this command is the list of supported commands
+        bootloader_send_ack(sizeof(supported_commands));
+ 80003ac:	200a      	movs	r0, #10
+ 80003ae:	f000 fbe1 	bl	8000b74 <bootloader_send_ack>
+
+        // 3. Send the reply back to the host, which is the array of supported commands
+        bootloader_uart_write_data(supported_commands, sizeof(supported_commands));
+ 80003b2:	210a      	movs	r1, #10
+ 80003b4:	4804      	ldr	r0, [pc, #16]	@ (80003c8 <bootloader_handle_gethelp+0x58>)
+ 80003b6:	f000 fba3 	bl	8000b00 <bootloader_uart_write_data>
+    else
+    {
+        // 4. Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 80003ba:	e001      	b.n	80003c0 <bootloader_handle_gethelp+0x50>
+        bootloader_send_nack();
+ 80003bc:	f000 fbc6 	bl	8000b4c <bootloader_send_nack>
+}
+ 80003c0:	bf00      	nop
+ 80003c2:	3718      	adds	r7, #24
+ 80003c4:	46bd      	mov	sp, r7
+ 80003c6:	bd80      	pop	{r7, pc}
+ 80003c8:	20000000 	.word	0x20000000
+
+080003cc <bootloader_verify_crc>:
+
+uint32_t bootloader_verify_crc(uint8_t *pData, uint32_t len, uint32_t crc_host)
+{
+ 80003cc:	b480      	push	{r7}
+ 80003ce:	b087      	sub	sp, #28
+ 80003d0:	af00      	add	r7, sp, #0
+ 80003d2:	60f8      	str	r0, [r7, #12]
+ 80003d4:	60b9      	str	r1, [r7, #8]
+ 80003d6:	607a      	str	r2, [r7, #4]
+	uint32_t computed_crc = 0;
+ 80003d8:	2300      	movs	r3, #0
+ 80003da:	613b      	str	r3, [r7, #16]
+	    uint32_t i, data_word;
+
+	    // Enable CRC peripheral clock (adjust depending on your STM32 family)
+	    RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;
+ 80003dc:	4b14      	ldr	r3, [pc, #80]	@ (8000430 <bootloader_verify_crc+0x64>)
+ 80003de:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
+ 80003e0:	4a13      	ldr	r2, [pc, #76]	@ (8000430 <bootloader_verify_crc+0x64>)
+ 80003e2:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
+ 80003e6:	6313      	str	r3, [r2, #48]	@ 0x30
+
+	    // Reset CRC calculation unit by writing to CR register
+	    CRC->CR = 1;
+ 80003e8:	4b12      	ldr	r3, [pc, #72]	@ (8000434 <bootloader_verify_crc+0x68>)
+ 80003ea:	2201      	movs	r2, #1
+ 80003ec:	609a      	str	r2, [r3, #8]
+
+		// Feed data to the CRC peripheral
+		for (uint32_t i = 0; i < len; i++)
+ 80003ee:	2300      	movs	r3, #0
+ 80003f0:	617b      	str	r3, [r7, #20]
+ 80003f2:	e008      	b.n	8000406 <bootloader_verify_crc+0x3a>
+		{
+			// Write the 32-bit data word to the CRC_DR register.
+			// The CRC peripheral automatically processes the data.
+			CRC->DR = pData[i];
+ 80003f4:	68fa      	ldr	r2, [r7, #12]
+ 80003f6:	697b      	ldr	r3, [r7, #20]
+ 80003f8:	4413      	add	r3, r2
+ 80003fa:	781a      	ldrb	r2, [r3, #0]
+ 80003fc:	4b0d      	ldr	r3, [pc, #52]	@ (8000434 <bootloader_verify_crc+0x68>)
+ 80003fe:	601a      	str	r2, [r3, #0]
+		for (uint32_t i = 0; i < len; i++)
+ 8000400:	697b      	ldr	r3, [r7, #20]
+ 8000402:	3301      	adds	r3, #1
+ 8000404:	617b      	str	r3, [r7, #20]
+ 8000406:	697a      	ldr	r2, [r7, #20]
+ 8000408:	68bb      	ldr	r3, [r7, #8]
+ 800040a:	429a      	cmp	r2, r3
+ 800040c:	d3f2      	bcc.n	80003f4 <bootloader_verify_crc+0x28>
+			//printf("Processing data word 0x%08lX\r\n", data[i]);
+		}
+
+	    // Read the CRC result from DR register
+	    computed_crc = CRC->DR;
+ 800040e:	4b09      	ldr	r3, [pc, #36]	@ (8000434 <bootloader_verify_crc+0x68>)
+ 8000410:	681b      	ldr	r3, [r3, #0]
+ 8000412:	613b      	str	r3, [r7, #16]
+	    // Disable CRC clock if desired (optional for power saving)
+	    // RCC->AHB1ENR &= ~RCC_AHB1ENR_CRCEN;
+
+
+    // 4. Compare the calculated CRC with the host's CRC
+    if (computed_crc == crc_host)
+ 8000414:	693a      	ldr	r2, [r7, #16]
+ 8000416:	687b      	ldr	r3, [r7, #4]
+ 8000418:	429a      	cmp	r2, r3
+ 800041a:	d101      	bne.n	8000420 <bootloader_verify_crc+0x54>
+    {
+        return VERIFY_CRC_SUCCESS;
+ 800041c:	2300      	movs	r3, #0
+ 800041e:	e000      	b.n	8000422 <bootloader_verify_crc+0x56>
+    }
+    else
+    {
+        return VERIFY_CRC_FAIL;
+ 8000420:	2301      	movs	r3, #1
+    }
+}
+ 8000422:	4618      	mov	r0, r3
+ 8000424:	371c      	adds	r7, #28
+ 8000426:	46bd      	mov	sp, r7
+ 8000428:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800042c:	4770      	bx	lr
+ 800042e:	bf00      	nop
+ 8000430:	40023800 	.word	0x40023800
+ 8000434:	40023000 	.word	0x40023000
+
+08000438 <get_bootloader_version>:
+
+
+
+uint8_t get_bootloader_version(void)
+{
+ 8000438:	b480      	push	{r7}
+ 800043a:	af00      	add	r7, sp, #0
+    return BOOTLOADER_VERSION;
+ 800043c:	2310      	movs	r3, #16
+}
+ 800043e:	4618      	mov	r0, r3
+ 8000440:	46bd      	mov	sp, r7
+ 8000442:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000446:	4770      	bx	lr
+
+08000448 <get_mcu_chip_id>:
+
+
+uint16_t get_mcu_chip_id(void)
+{
+ 8000448:	b480      	push	{r7}
+ 800044a:	af00      	add	r7, sp, #0
+    // DBGMCU is a structure defined in the header file,
+    // which gives access to the Debug MCU registers.
+    // The IDCODE register holds the chip ID.
+    // We mask the value to get only bits 0-11, which represent the device identifier.
+    return (uint16_t)(DBGMCU->IDCODE & 0x0FFF);
+ 800044c:	4b05      	ldr	r3, [pc, #20]	@ (8000464 <get_mcu_chip_id+0x1c>)
+ 800044e:	681b      	ldr	r3, [r3, #0]
+ 8000450:	b29b      	uxth	r3, r3
+ 8000452:	f3c3 030b 	ubfx	r3, r3, #0, #12
+ 8000456:	b29b      	uxth	r3, r3
+}
+ 8000458:	4618      	mov	r0, r3
+ 800045a:	46bd      	mov	sp, r7
+ 800045c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000460:	4770      	bx	lr
+ 8000462:	bf00      	nop
+ 8000464:	e0042000 	.word	0xe0042000
+
+08000468 <bootloader_handle_getcid>:
+
+/* Bootloader command handler for BL_GET_CID */
+void bootloader_handle_getcid(uint8_t *pBuffer)
+{
+ 8000468:	b580      	push	{r7, lr}
+ 800046a:	b086      	sub	sp, #24
+ 800046c:	af00      	add	r7, sp, #0
+ 800046e:	6078      	str	r0, [r7, #4]
+    uint32_t command_packet_len = pBuffer[0] + 1;
+ 8000470:	687b      	ldr	r3, [r7, #4]
+ 8000472:	781b      	ldrb	r3, [r3, #0]
+ 8000474:	3301      	adds	r3, #1
+ 8000476:	617b      	str	r3, [r7, #20]
+    uint32_t host_crc = *((uint32_t *)(pBuffer + command_packet_len - 4));
+ 8000478:	697b      	ldr	r3, [r7, #20]
+ 800047a:	3b04      	subs	r3, #4
+ 800047c:	687a      	ldr	r2, [r7, #4]
+ 800047e:	4413      	add	r3, r2
+ 8000480:	681b      	ldr	r3, [r3, #0]
+ 8000482:	613b      	str	r3, [r7, #16]
+
+    if (bootloader_verify_crc(pBuffer, command_packet_len - 4, host_crc) == VERIFY_CRC_SUCCESS)
+ 8000484:	697b      	ldr	r3, [r7, #20]
+ 8000486:	3b04      	subs	r3, #4
+ 8000488:	693a      	ldr	r2, [r7, #16]
+ 800048a:	4619      	mov	r1, r3
+ 800048c:	6878      	ldr	r0, [r7, #4]
+ 800048e:	f7ff ff9d 	bl	80003cc <bootloader_verify_crc>
+ 8000492:	4603      	mov	r3, r0
+ 8000494:	2b00      	cmp	r3, #0
+ 8000496:	d10d      	bne.n	80004b4 <bootloader_handle_getcid+0x4c>
+    {
+        // Checksum is correct, send an ACK
+        bootloader_send_ack(2); // The chip ID is 2 bytes (uint16_t)
+ 8000498:	2002      	movs	r0, #2
+ 800049a:	f000 fb6b 	bl	8000b74 <bootloader_send_ack>
+
+        // Get the 2-byte chip ID
+        uint16_t chip_id = get_mcu_chip_id();
+ 800049e:	f7ff ffd3 	bl	8000448 <get_mcu_chip_id>
+ 80004a2:	4603      	mov	r3, r0
+ 80004a4:	81fb      	strh	r3, [r7, #14]
+
+        // Send the reply back to the host
+        // The chip ID is 2 bytes, so we write them individually
+        bootloader_uart_write_data((uint8_t *)&chip_id, sizeof(chip_id));
+ 80004a6:	f107 030e 	add.w	r3, r7, #14
+ 80004aa:	2102      	movs	r1, #2
+ 80004ac:	4618      	mov	r0, r3
+ 80004ae:	f000 fb27 	bl	8000b00 <bootloader_uart_write_data>
+    else
+    {
+        // Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 80004b2:	e001      	b.n	80004b8 <bootloader_handle_getcid+0x50>
+        bootloader_send_nack();
+ 80004b4:	f000 fb4a 	bl	8000b4c <bootloader_send_nack>
+}
+ 80004b8:	bf00      	nop
+ 80004ba:	3718      	adds	r7, #24
+ 80004bc:	46bd      	mov	sp, r7
+ 80004be:	bd80      	pop	{r7, pc}
+
+080004c0 <get_flash_rdp_level>:
+
+// Helper function to read the Flash Read Protection (RDP) level
+uint8_t get_flash_rdp_level(void)
+{
+ 80004c0:	b480      	push	{r7}
+ 80004c2:	b083      	sub	sp, #12
+ 80004c4:	af00      	add	r7, sp, #0
+    // The RDP level is stored in the option byte at address 0x40023C10, specifically in bits 8-15.
+    uint32_t *p_ob_address = (uint32_t *) 0x1FFFC000
+ 80004c6:	4b06      	ldr	r3, [pc, #24]	@ (80004e0 <get_flash_rdp_level+0x20>)
+ 80004c8:	607b      	str	r3, [r7, #4]
+;
+
+    // Read the 32-bit value from the option byte address,
+    // shift right by 8 bits to get the second byte, and mask it.
+    uint8_t rdp_status = (uint8_t)((*p_ob_address >> 8) & 0xFF);
+ 80004ca:	687b      	ldr	r3, [r7, #4]
+ 80004cc:	681b      	ldr	r3, [r3, #0]
+ 80004ce:	0a1b      	lsrs	r3, r3, #8
+ 80004d0:	70fb      	strb	r3, [r7, #3]
+
+    return rdp_status;
+ 80004d2:	78fb      	ldrb	r3, [r7, #3]
+}
+ 80004d4:	4618      	mov	r0, r3
+ 80004d6:	370c      	adds	r7, #12
+ 80004d8:	46bd      	mov	sp, r7
+ 80004da:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80004de:	4770      	bx	lr
+ 80004e0:	1fffc000 	.word	0x1fffc000
+
+080004e4 <bootloader_handle_getrdp>:
+
+// Bootloader command handler for BL_GET_RDP_STATUS
+void bootloader_handle_getrdp(uint8_t *pBuffer)
+{
+ 80004e4:	b580      	push	{r7, lr}
+ 80004e6:	b086      	sub	sp, #24
+ 80004e8:	af00      	add	r7, sp, #0
+ 80004ea:	6078      	str	r0, [r7, #4]
+    uint32_t command_packet_len = pBuffer[0] + 1;
+ 80004ec:	687b      	ldr	r3, [r7, #4]
+ 80004ee:	781b      	ldrb	r3, [r3, #0]
+ 80004f0:	3301      	adds	r3, #1
+ 80004f2:	617b      	str	r3, [r7, #20]
+    uint32_t host_crc = *((uint32_t *)(pBuffer + command_packet_len - 4));
+ 80004f4:	697b      	ldr	r3, [r7, #20]
+ 80004f6:	3b04      	subs	r3, #4
+ 80004f8:	687a      	ldr	r2, [r7, #4]
+ 80004fa:	4413      	add	r3, r2
+ 80004fc:	681b      	ldr	r3, [r3, #0]
+ 80004fe:	613b      	str	r3, [r7, #16]
+    uint8_t rdp_level = 0;
+ 8000500:	2300      	movs	r3, #0
+ 8000502:	73fb      	strb	r3, [r7, #15]
+
+    if (bootloader_verify_crc(pBuffer, command_packet_len - 4, host_crc) == VERIFY_CRC_SUCCESS)
+ 8000504:	697b      	ldr	r3, [r7, #20]
+ 8000506:	3b04      	subs	r3, #4
+ 8000508:	693a      	ldr	r2, [r7, #16]
+ 800050a:	4619      	mov	r1, r3
+ 800050c:	6878      	ldr	r0, [r7, #4]
+ 800050e:	f7ff ff5d 	bl	80003cc <bootloader_verify_crc>
+ 8000512:	4603      	mov	r3, r0
+ 8000514:	2b00      	cmp	r3, #0
+ 8000516:	d10d      	bne.n	8000534 <bootloader_handle_getrdp+0x50>
+    {
+        // Checksum is correct, send an ACK
+        bootloader_send_ack(1); // The RDP level is a single byte
+ 8000518:	2001      	movs	r0, #1
+ 800051a:	f000 fb2b 	bl	8000b74 <bootloader_send_ack>
+
+        // Get the RDP level using the helper function
+        rdp_level = get_flash_rdp_level();
+ 800051e:	f7ff ffcf 	bl	80004c0 <get_flash_rdp_level>
+ 8000522:	4603      	mov	r3, r0
+ 8000524:	73fb      	strb	r3, [r7, #15]
+
+        // Send the reply back to the host
+        bootloader_uart_write_data(&rdp_level, 1);
+ 8000526:	f107 030f 	add.w	r3, r7, #15
+ 800052a:	2101      	movs	r1, #1
+ 800052c:	4618      	mov	r0, r3
+ 800052e:	f000 fae7 	bl	8000b00 <bootloader_uart_write_data>
+    else
+    {
+        // Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 8000532:	e001      	b.n	8000538 <bootloader_handle_getrdp+0x54>
+        bootloader_send_nack();
+ 8000534:	f000 fb0a 	bl	8000b4c <bootloader_send_nack>
+}
+ 8000538:	bf00      	nop
+ 800053a:	3718      	adds	r7, #24
+ 800053c:	46bd      	mov	sp, r7
+ 800053e:	bd80      	pop	{r7, pc}
+
+08000540 <verify_address>:
+
+int verify_address(uint32_t addr) {
+ 8000540:	b480      	push	{r7}
+ 8000542:	b083      	sub	sp, #12
+ 8000544:	af00      	add	r7, sp, #0
+ 8000546:	6078      	str	r0, [r7, #4]
+    // Check if the address falls within the Flash memory region
+    if ((addr >= FLASH_BASE) && (addr < (FLASH_END))) {
+ 8000548:	687b      	ldr	r3, [r7, #4]
+ 800054a:	f1b3 6f00 	cmp.w	r3, #134217728	@ 0x8000000
+ 800054e:	d305      	bcc.n	800055c <verify_address+0x1c>
+ 8000550:	687b      	ldr	r3, [r7, #4]
+ 8000552:	4a15      	ldr	r2, [pc, #84]	@ (80005a8 <verify_address+0x68>)
+ 8000554:	4293      	cmp	r3, r2
+ 8000556:	d801      	bhi.n	800055c <verify_address+0x1c>
+        return 1;
+ 8000558:	2301      	movs	r3, #1
+ 800055a:	e01e      	b.n	800059a <verify_address+0x5a>
+    }
+
+    // Check if the address falls within the SRAM1 region
+    if ((addr >= SRAM1_BASE) && (addr < SRAM1_END)) {
+ 800055c:	687b      	ldr	r3, [r7, #4]
+ 800055e:	f1b3 5f00 	cmp.w	r3, #536870912	@ 0x20000000
+ 8000562:	d305      	bcc.n	8000570 <verify_address+0x30>
+ 8000564:	687b      	ldr	r3, [r7, #4]
+ 8000566:	4a11      	ldr	r2, [pc, #68]	@ (80005ac <verify_address+0x6c>)
+ 8000568:	4293      	cmp	r3, r2
+ 800056a:	d201      	bcs.n	8000570 <verify_address+0x30>
+        return 1;
+ 800056c:	2301      	movs	r3, #1
+ 800056e:	e014      	b.n	800059a <verify_address+0x5a>
+    }
+
+    // Check if the address falls within the SRAM2 region
+    if ((addr >= SRAM2_BASE) && (addr < SRAM2_END)) {
+ 8000570:	687b      	ldr	r3, [r7, #4]
+ 8000572:	4a0e      	ldr	r2, [pc, #56]	@ (80005ac <verify_address+0x6c>)
+ 8000574:	4293      	cmp	r3, r2
+ 8000576:	d305      	bcc.n	8000584 <verify_address+0x44>
+ 8000578:	687b      	ldr	r3, [r7, #4]
+ 800057a:	4a0d      	ldr	r2, [pc, #52]	@ (80005b0 <verify_address+0x70>)
+ 800057c:	4293      	cmp	r3, r2
+ 800057e:	d801      	bhi.n	8000584 <verify_address+0x44>
+        return 1;
+ 8000580:	2301      	movs	r3, #1
+ 8000582:	e00a      	b.n	800059a <verify_address+0x5a>
+    }
+
+    // Check if the address falls within the Backup SRAM (BKPSRAM) region
+    if ((addr >= BKPSRAM_BASE) && (addr < BKPSRAM_END)) {
+ 8000584:	687b      	ldr	r3, [r7, #4]
+ 8000586:	4a0b      	ldr	r2, [pc, #44]	@ (80005b4 <verify_address+0x74>)
+ 8000588:	4293      	cmp	r3, r2
+ 800058a:	d305      	bcc.n	8000598 <verify_address+0x58>
+ 800058c:	687b      	ldr	r3, [r7, #4]
+ 800058e:	4a0a      	ldr	r2, [pc, #40]	@ (80005b8 <verify_address+0x78>)
+ 8000590:	4293      	cmp	r3, r2
+ 8000592:	d201      	bcs.n	8000598 <verify_address+0x58>
+        return 1;
+ 8000594:	2301      	movs	r3, #1
+ 8000596:	e000      	b.n	800059a <verify_address+0x5a>
+    }
+
+    // If the address does not fall into any of the valid regions, it's considered invalid
+    return 0;
+ 8000598:	2300      	movs	r3, #0
+}
+ 800059a:	4618      	mov	r0, r3
+ 800059c:	370c      	adds	r7, #12
+ 800059e:	46bd      	mov	sp, r7
+ 80005a0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80005a4:	4770      	bx	lr
+ 80005a6:	bf00      	nop
+ 80005a8:	080ffffe 	.word	0x080ffffe
+ 80005ac:	2001c000 	.word	0x2001c000
+ 80005b0:	2001ffff 	.word	0x2001ffff
+ 80005b4:	40024000 	.word	0x40024000
+ 80005b8:	40025000 	.word	0x40025000
+
+080005bc <bootloader_handle_go_to_addr>:
+
+void bootloader_handle_go_to_addr(uint8_t *pBuffer)
+{
+ 80005bc:	b580      	push	{r7, lr}
+ 80005be:	b08a      	sub	sp, #40	@ 0x28
+ 80005c0:	af00      	add	r7, sp, #0
+ 80005c2:	6078      	str	r0, [r7, #4]
+    // The command packet format is:
+    // [Total length - 1] [Command code] [Address (4 bytes, little-endian)] [CRC (4 bytes)]
+
+    uint32_t command_packet_len = pBuffer[0] + 1;
+ 80005c4:	687b      	ldr	r3, [r7, #4]
+ 80005c6:	781b      	ldrb	r3, [r3, #0]
+ 80005c8:	3301      	adds	r3, #1
+ 80005ca:	627b      	str	r3, [r7, #36]	@ 0x24
+    uint32_t crc_value = 0;
+ 80005cc:	2300      	movs	r3, #0
+ 80005ce:	623b      	str	r3, [r7, #32]
+    uint32_t calculated_crc = 0;
+ 80005d0:	2300      	movs	r3, #0
+ 80005d2:	61fb      	str	r3, [r7, #28]
+    uint32_t go_address = 0;
+ 80005d4:	2300      	movs	r3, #0
+ 80005d6:	61bb      	str	r3, [r7, #24]
+
+    // 1. Verify the CRC of the received command packet
+    // The CRC to be verified is located at the end of the packet
+    crc_value = *(uint32_t *)(pBuffer + command_packet_len - 4);
+ 80005d8:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 80005da:	3b04      	subs	r3, #4
+ 80005dc:	687a      	ldr	r2, [r7, #4]
+ 80005de:	4413      	add	r3, r2
+ 80005e0:	681b      	ldr	r3, [r3, #0]
+ 80005e2:	623b      	str	r3, [r7, #32]
+    uint32_t data_len = command_packet_len - 4;
+ 80005e4:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 80005e6:	3b04      	subs	r3, #4
+ 80005e8:	617b      	str	r3, [r7, #20]
+    calculated_crc = bootloader_verify_crc(pBuffer, data_len, crc_value);
+ 80005ea:	6a3a      	ldr	r2, [r7, #32]
+ 80005ec:	6979      	ldr	r1, [r7, #20]
+ 80005ee:	6878      	ldr	r0, [r7, #4]
+ 80005f0:	f7ff feec 	bl	80003cc <bootloader_verify_crc>
+ 80005f4:	61f8      	str	r0, [r7, #28]
+
+    if (calculated_crc == VERIFY_CRC_SUCCESS)
+ 80005f6:	69fb      	ldr	r3, [r7, #28]
+ 80005f8:	2b00      	cmp	r3, #0
+ 80005fa:	d120      	bne.n	800063e <bootloader_handle_go_to_addr+0x82>
+    {
+        // Checksum is correct, send an ACK
+        bootloader_send_ack(1);
+ 80005fc:	2001      	movs	r0, #1
+ 80005fe:	f000 fab9 	bl	8000b74 <bootloader_send_ack>
+
+
+
+        // 2. Extract the address from the buffer
+        // The address bytes are at index 2 to 5 in the buffer (little-endian)
+        go_address = *(uint32_t *)(pBuffer + 1);
+ 8000602:	687b      	ldr	r3, [r7, #4]
+ 8000604:	f8d3 3001 	ldr.w	r3, [r3, #1]
+ 8000608:	61bb      	str	r3, [r7, #24]
+        //go_address = 0x08008000;
+
+        // 3. Verify the address before attempting to jump
+        if (verify_address(go_address) == 1)
+ 800060a:	69b8      	ldr	r0, [r7, #24]
+ 800060c:	f7ff ff98 	bl	8000540 <verify_address>
+ 8000610:	4603      	mov	r3, r0
+ 8000612:	2b01      	cmp	r3, #1
+ 8000614:	d110      	bne.n	8000638 <bootloader_handle_go_to_addr+0x7c>
+            // Function pointer to the application's Reset Handler
+            void (*app_reset_handler)(void);
+
+            // Set the Main Stack Pointer (MSP)
+            // The first entry in the vector table (at 'go_address') is the MSP
+            __set_MSP(*((volatile uint32_t*)go_address));
+ 8000616:	69bb      	ldr	r3, [r7, #24]
+ 8000618:	681b      	ldr	r3, [r3, #0]
+ 800061a:	60fb      	str	r3, [r7, #12]
+  __ASM volatile ("MSR msp, %0" : : "r" (topOfMainStack) : );
+ 800061c:	68fb      	ldr	r3, [r7, #12]
+ 800061e:	f383 8808 	msr	MSP, r3
+}
+ 8000622:	bf00      	nop
+
+            // Configure the Vector Table Offset Register (VTOR)
+            // The VTOR must point to the new application's vector table
+            SCB->VTOR = go_address;
+ 8000624:	4a09      	ldr	r2, [pc, #36]	@ (800064c <bootloader_handle_go_to_addr+0x90>)
+ 8000626:	69bb      	ldr	r3, [r7, #24]
+ 8000628:	6093      	str	r3, [r2, #8]
+
+            // Get the address of the application's Reset Handler
+            // The second entry in the vector table (at 'go_address + 4') is the Reset Handler
+            app_reset_handler = (void (*)(void))(*((volatile uint32_t*)(go_address + 4)));
+ 800062a:	69bb      	ldr	r3, [r7, #24]
+ 800062c:	3304      	adds	r3, #4
+ 800062e:	681b      	ldr	r3, [r3, #0]
+ 8000630:	613b      	str	r3, [r7, #16]
+
+            // Jump to the application's Reset Handler
+            app_reset_handler();
+ 8000632:	693b      	ldr	r3, [r7, #16]
+ 8000634:	4798      	blx	r3
+    else
+    {
+        // Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 8000636:	e004      	b.n	8000642 <bootloader_handle_go_to_addr+0x86>
+            bootloader_send_nack();
+ 8000638:	f000 fa88 	bl	8000b4c <bootloader_send_nack>
+}
+ 800063c:	e001      	b.n	8000642 <bootloader_handle_go_to_addr+0x86>
+        bootloader_send_nack();
+ 800063e:	f000 fa85 	bl	8000b4c <bootloader_send_nack>
+}
+ 8000642:	bf00      	nop
+ 8000644:	3728      	adds	r7, #40	@ 0x28
+ 8000646:	46bd      	mov	sp, r7
+ 8000648:	bd80      	pop	{r7, pc}
+ 800064a:	bf00      	nop
+ 800064c:	e000ed00 	.word	0xe000ed00
+
+08000650 <flash_unlock>:
+
+// Function to unlock the Flash control register (FLASH_CR)
+static void flash_unlock(void)
+{
+ 8000650:	b480      	push	{r7}
+ 8000652:	af00      	add	r7, sp, #0
+    // Unlock the FLASH_CR register to allow modifications.
+    // This is done by writing two specific keys to the FLASH_KEYR register.
+    if ((FLASH->CR & FLASH_CR_LOCK) != 0U)
+ 8000654:	4b07      	ldr	r3, [pc, #28]	@ (8000674 <flash_unlock+0x24>)
+ 8000656:	691b      	ldr	r3, [r3, #16]
+ 8000658:	2b00      	cmp	r3, #0
+ 800065a:	da05      	bge.n	8000668 <flash_unlock+0x18>
+    {
+        FLASH->KEYR = 0x45670123U; // Key 1
+ 800065c:	4b05      	ldr	r3, [pc, #20]	@ (8000674 <flash_unlock+0x24>)
+ 800065e:	4a06      	ldr	r2, [pc, #24]	@ (8000678 <flash_unlock+0x28>)
+ 8000660:	605a      	str	r2, [r3, #4]
+        FLASH->KEYR = 0xCDEF89ABU; // Key 2
+ 8000662:	4b04      	ldr	r3, [pc, #16]	@ (8000674 <flash_unlock+0x24>)
+ 8000664:	4a05      	ldr	r2, [pc, #20]	@ (800067c <flash_unlock+0x2c>)
+ 8000666:	605a      	str	r2, [r3, #4]
+    }
+}
+ 8000668:	bf00      	nop
+ 800066a:	46bd      	mov	sp, r7
+ 800066c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000670:	4770      	bx	lr
+ 8000672:	bf00      	nop
+ 8000674:	40023c00 	.word	0x40023c00
+ 8000678:	45670123 	.word	0x45670123
+ 800067c:	cdef89ab 	.word	0xcdef89ab
+
+08000680 <flash_lock>:
+
+// Function to lock the Flash control register (FLASH_CR)
+static void flash_lock(void)
+{
+ 8000680:	b480      	push	{r7}
+ 8000682:	af00      	add	r7, sp, #0
+    // Lock the FLASH_CR register to protect it from accidental writes.
+    FLASH->CR |= FLASH_CR_LOCK;
+ 8000684:	4b05      	ldr	r3, [pc, #20]	@ (800069c <flash_lock+0x1c>)
+ 8000686:	691b      	ldr	r3, [r3, #16]
+ 8000688:	4a04      	ldr	r2, [pc, #16]	@ (800069c <flash_lock+0x1c>)
+ 800068a:	f043 4300 	orr.w	r3, r3, #2147483648	@ 0x80000000
+ 800068e:	6113      	str	r3, [r2, #16]
+}
+ 8000690:	bf00      	nop
+ 8000692:	46bd      	mov	sp, r7
+ 8000694:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000698:	4770      	bx	lr
+ 800069a:	bf00      	nop
+ 800069c:	40023c00 	.word	0x40023c00
+
+080006a0 <execute_flash_erase>:
+
+// Main function to perform the flash erase
+void execute_flash_erase(uint8_t sector_number, uint8_t no_of_sectors)
+{
+ 80006a0:	b580      	push	{r7, lr}
+ 80006a2:	b084      	sub	sp, #16
+ 80006a4:	af00      	add	r7, sp, #0
+ 80006a6:	4603      	mov	r3, r0
+ 80006a8:	460a      	mov	r2, r1
+ 80006aa:	71fb      	strb	r3, [r7, #7]
+ 80006ac:	4613      	mov	r3, r2
+ 80006ae:	71bb      	strb	r3, [r7, #6]
+    // Wait for any ongoing flash operation to complete.
+    while (FLASH->SR & FLASH_SR_BSY)
+ 80006b0:	bf00      	nop
+ 80006b2:	4b36      	ldr	r3, [pc, #216]	@ (800078c <execute_flash_erase+0xec>)
+ 80006b4:	68db      	ldr	r3, [r3, #12]
+ 80006b6:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 80006ba:	2b00      	cmp	r3, #0
+ 80006bc:	d1f9      	bne.n	80006b2 <execute_flash_erase+0x12>
+    {
+        // Do nothing, just wait.
+    }
+
+    // Unlock the flash for erase operation.
+    flash_unlock();
+ 80006be:	f7ff ffc7 	bl	8000650 <flash_unlock>
+
+    // Perform a mass erase if the sector number is 0xFF.
+    if (sector_number == 0xFF)
+ 80006c2:	79fb      	ldrb	r3, [r7, #7]
+ 80006c4:	2bff      	cmp	r3, #255	@ 0xff
+ 80006c6:	d11f      	bne.n	8000708 <execute_flash_erase+0x68>
+    {
+        // Enable Mass Erase.
+        FLASH->CR |= FLASH_CR_MER;
+ 80006c8:	4b30      	ldr	r3, [pc, #192]	@ (800078c <execute_flash_erase+0xec>)
+ 80006ca:	691b      	ldr	r3, [r3, #16]
+ 80006cc:	4a2f      	ldr	r2, [pc, #188]	@ (800078c <execute_flash_erase+0xec>)
+ 80006ce:	f043 0304 	orr.w	r3, r3, #4
+ 80006d2:	6113      	str	r3, [r2, #16]
+
+        // Set the voltage range.
+        FLASH->CR |= FLASH_VOLTAGE_RANGE_3 << 8; // Mapped to the PSIZE bits
+ 80006d4:	4b2d      	ldr	r3, [pc, #180]	@ (800078c <execute_flash_erase+0xec>)
+ 80006d6:	691b      	ldr	r3, [r3, #16]
+ 80006d8:	4a2c      	ldr	r2, [pc, #176]	@ (800078c <execute_flash_erase+0xec>)
+ 80006da:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 80006de:	6113      	str	r3, [r2, #16]
+
+        // Start the erase operation.
+        FLASH->CR |= FLASH_CR_STRT;
+ 80006e0:	4b2a      	ldr	r3, [pc, #168]	@ (800078c <execute_flash_erase+0xec>)
+ 80006e2:	691b      	ldr	r3, [r3, #16]
+ 80006e4:	4a29      	ldr	r2, [pc, #164]	@ (800078c <execute_flash_erase+0xec>)
+ 80006e6:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 80006ea:	6113      	str	r3, [r2, #16]
+
+        // Wait for the BSY flag to clear.
+        while (FLASH->SR & FLASH_SR_BSY)
+ 80006ec:	bf00      	nop
+ 80006ee:	4b27      	ldr	r3, [pc, #156]	@ (800078c <execute_flash_erase+0xec>)
+ 80006f0:	68db      	ldr	r3, [r3, #12]
+ 80006f2:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 80006f6:	2b00      	cmp	r3, #0
+ 80006f8:	d1f9      	bne.n	80006ee <execute_flash_erase+0x4e>
+        {
+            // Wait for erase to finish.
+        }
+
+        // Clear the Mass Erase bit.
+        FLASH->CR &= ~FLASH_CR_MER;
+ 80006fa:	4b24      	ldr	r3, [pc, #144]	@ (800078c <execute_flash_erase+0xec>)
+ 80006fc:	691b      	ldr	r3, [r3, #16]
+ 80006fe:	4a23      	ldr	r2, [pc, #140]	@ (800078c <execute_flash_erase+0xec>)
+ 8000700:	f023 0304 	bic.w	r3, r3, #4
+ 8000704:	6113      	str	r3, [r2, #16]
+ 8000706:	e03a      	b.n	800077e <execute_flash_erase+0xde>
+    }
+    else
+    {
+        // Perform sector erase.
+        for (uint8_t i = 0; i < no_of_sectors; i++)
+ 8000708:	2300      	movs	r3, #0
+ 800070a:	73fb      	strb	r3, [r7, #15]
+ 800070c:	e033      	b.n	8000776 <execute_flash_erase+0xd6>
+        {
+            // Clear all error flags in the Status Register.
+            FLASH->SR = (FLASH_SR_PGSERR | FLASH_SR_PGPERR | FLASH_SR_PGAERR |
+ 800070e:	4b1f      	ldr	r3, [pc, #124]	@ (800078c <execute_flash_erase+0xec>)
+ 8000710:	22f1      	movs	r2, #241	@ 0xf1
+ 8000712:	60da      	str	r2, [r3, #12]
+                         FLASH_SR_WRPERR | FLASH_SR_EOP);
+
+            // Set the SER (Sector Erase) bit.
+            FLASH->CR |= FLASH_CR_SER;
+ 8000714:	4b1d      	ldr	r3, [pc, #116]	@ (800078c <execute_flash_erase+0xec>)
+ 8000716:	691b      	ldr	r3, [r3, #16]
+ 8000718:	4a1c      	ldr	r2, [pc, #112]	@ (800078c <execute_flash_erase+0xec>)
+ 800071a:	f043 0302 	orr.w	r3, r3, #2
+ 800071e:	6113      	str	r3, [r2, #16]
+
+            // Select the sector to erase.
+            // The sector bits (SNB) are 3 to 6 in the FLASH_CR register.
+            FLASH->CR &= ~FLASH_CR_SNB; // Clear previous sector selection
+ 8000720:	4b1a      	ldr	r3, [pc, #104]	@ (800078c <execute_flash_erase+0xec>)
+ 8000722:	691b      	ldr	r3, [r3, #16]
+ 8000724:	4a19      	ldr	r2, [pc, #100]	@ (800078c <execute_flash_erase+0xec>)
+ 8000726:	f023 0378 	bic.w	r3, r3, #120	@ 0x78
+ 800072a:	6113      	str	r3, [r2, #16]
+            FLASH->CR |= (sector_number + i) << 3;
+ 800072c:	4b17      	ldr	r3, [pc, #92]	@ (800078c <execute_flash_erase+0xec>)
+ 800072e:	691a      	ldr	r2, [r3, #16]
+ 8000730:	79f9      	ldrb	r1, [r7, #7]
+ 8000732:	7bfb      	ldrb	r3, [r7, #15]
+ 8000734:	440b      	add	r3, r1
+ 8000736:	00db      	lsls	r3, r3, #3
+ 8000738:	4914      	ldr	r1, [pc, #80]	@ (800078c <execute_flash_erase+0xec>)
+ 800073a:	4313      	orrs	r3, r2
+ 800073c:	610b      	str	r3, [r1, #16]
+
+            // Set the voltage range.
+            FLASH->CR |= FLASH_VOLTAGE_RANGE_3 << 8; // Mapped to the PSIZE bits
+ 800073e:	4b13      	ldr	r3, [pc, #76]	@ (800078c <execute_flash_erase+0xec>)
+ 8000740:	691b      	ldr	r3, [r3, #16]
+ 8000742:	4a12      	ldr	r2, [pc, #72]	@ (800078c <execute_flash_erase+0xec>)
+ 8000744:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 8000748:	6113      	str	r3, [r2, #16]
+
+            // Start the erase operation.
+            FLASH->CR |= FLASH_CR_STRT;
+ 800074a:	4b10      	ldr	r3, [pc, #64]	@ (800078c <execute_flash_erase+0xec>)
+ 800074c:	691b      	ldr	r3, [r3, #16]
+ 800074e:	4a0f      	ldr	r2, [pc, #60]	@ (800078c <execute_flash_erase+0xec>)
+ 8000750:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 8000754:	6113      	str	r3, [r2, #16]
+
+            // Wait for the BSY flag to clear.
+            while (FLASH->SR & FLASH_SR_BSY)
+ 8000756:	bf00      	nop
+ 8000758:	4b0c      	ldr	r3, [pc, #48]	@ (800078c <execute_flash_erase+0xec>)
+ 800075a:	68db      	ldr	r3, [r3, #12]
+ 800075c:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000760:	2b00      	cmp	r3, #0
+ 8000762:	d1f9      	bne.n	8000758 <execute_flash_erase+0xb8>
+            {
+                // Wait for erase to finish.
+            }
+
+            // Clear the SER bit.
+            FLASH->CR &= ~FLASH_CR_SER;
+ 8000764:	4b09      	ldr	r3, [pc, #36]	@ (800078c <execute_flash_erase+0xec>)
+ 8000766:	691b      	ldr	r3, [r3, #16]
+ 8000768:	4a08      	ldr	r2, [pc, #32]	@ (800078c <execute_flash_erase+0xec>)
+ 800076a:	f023 0302 	bic.w	r3, r3, #2
+ 800076e:	6113      	str	r3, [r2, #16]
+        for (uint8_t i = 0; i < no_of_sectors; i++)
+ 8000770:	7bfb      	ldrb	r3, [r7, #15]
+ 8000772:	3301      	adds	r3, #1
+ 8000774:	73fb      	strb	r3, [r7, #15]
+ 8000776:	7bfa      	ldrb	r2, [r7, #15]
+ 8000778:	79bb      	ldrb	r3, [r7, #6]
+ 800077a:	429a      	cmp	r2, r3
+ 800077c:	d3c7      	bcc.n	800070e <execute_flash_erase+0x6e>
+        }
+    }
+
+    // Lock the flash after the operation.
+    flash_lock();
+ 800077e:	f7ff ff7f 	bl	8000680 <flash_lock>
+}
+ 8000782:	bf00      	nop
+ 8000784:	3710      	adds	r7, #16
+ 8000786:	46bd      	mov	sp, r7
+ 8000788:	bd80      	pop	{r7, pc}
+ 800078a:	bf00      	nop
+ 800078c:	40023c00 	.word	0x40023c00
+
+08000790 <bootloader_handle_flash_erase>:
+
+void bootloader_handle_flash_erase(uint8_t *pBuffer)
+{
+ 8000790:	b580      	push	{r7, lr}
+ 8000792:	b088      	sub	sp, #32
+ 8000794:	af00      	add	r7, sp, #0
+ 8000796:	6078      	str	r0, [r7, #4]
+    // The command packet format is:
+    // [Total length - 1] [Command code] [Sector Number] [Number of sectors] [CRC (4 bytes)]
+
+    uint32_t command_packet_len = pBuffer[0] + 1;
+ 8000798:	687b      	ldr	r3, [r7, #4]
+ 800079a:	781b      	ldrb	r3, [r3, #0]
+ 800079c:	3301      	adds	r3, #1
+ 800079e:	61fb      	str	r3, [r7, #28]
+    uint32_t crc_value = 0;
+ 80007a0:	2300      	movs	r3, #0
+ 80007a2:	61bb      	str	r3, [r7, #24]
+    uint32_t calculated_crc_status = 0;
+ 80007a4:	2300      	movs	r3, #0
+ 80007a6:	617b      	str	r3, [r7, #20]
+
+    // 1. Verify the CRC of the received command packet
+    // The CRC to be verified is located at the end of the packet
+    crc_value = *(uint32_t *)(pBuffer + command_packet_len - 4);
+ 80007a8:	69fb      	ldr	r3, [r7, #28]
+ 80007aa:	3b04      	subs	r3, #4
+ 80007ac:	687a      	ldr	r2, [r7, #4]
+ 80007ae:	4413      	add	r3, r2
+ 80007b0:	681b      	ldr	r3, [r3, #0]
+ 80007b2:	61bb      	str	r3, [r7, #24]
+    uint32_t data_len = command_packet_len - 4;
+ 80007b4:	69fb      	ldr	r3, [r7, #28]
+ 80007b6:	3b04      	subs	r3, #4
+ 80007b8:	613b      	str	r3, [r7, #16]
+    calculated_crc_status = bootloader_verify_crc(pBuffer, data_len, crc_value);
+ 80007ba:	69ba      	ldr	r2, [r7, #24]
+ 80007bc:	6939      	ldr	r1, [r7, #16]
+ 80007be:	6878      	ldr	r0, [r7, #4]
+ 80007c0:	f7ff fe04 	bl	80003cc <bootloader_verify_crc>
+ 80007c4:	6178      	str	r0, [r7, #20]
+
+    if (calculated_crc_status == VERIFY_CRC_SUCCESS)
+ 80007c6:	697b      	ldr	r3, [r7, #20]
+ 80007c8:	2b00      	cmp	r3, #0
+ 80007ca:	d117      	bne.n	80007fc <bootloader_handle_flash_erase+0x6c>
+    {
+        // Checksum is correct, send an ACK
+        bootloader_send_ack(1); // 1 byte to follow (status)
+ 80007cc:	2001      	movs	r0, #1
+ 80007ce:	f000 f9d1 	bl	8000b74 <bootloader_send_ack>
+
+        // 2. Extract the sector number and number of sectors from the buffer
+        // The sector number is at index 2, and number of sectors is at index 3
+        uint8_t sector_number = pBuffer[1];
+ 80007d2:	687b      	ldr	r3, [r7, #4]
+ 80007d4:	785b      	ldrb	r3, [r3, #1]
+ 80007d6:	73fb      	strb	r3, [r7, #15]
+        uint8_t no_of_sectors = pBuffer[2];
+ 80007d8:	687b      	ldr	r3, [r7, #4]
+ 80007da:	789b      	ldrb	r3, [r3, #2]
+ 80007dc:	73bb      	strb	r3, [r7, #14]
+
+        // 3. Execute the flash erase operation.
+        execute_flash_erase(sector_number, no_of_sectors);
+ 80007de:	7bba      	ldrb	r2, [r7, #14]
+ 80007e0:	7bfb      	ldrb	r3, [r7, #15]
+ 80007e2:	4611      	mov	r1, r2
+ 80007e4:	4618      	mov	r0, r3
+ 80007e6:	f7ff ff5b 	bl	80006a0 <execute_flash_erase>
+
+        // 4. Send a success status back to the host.
+        uint8_t success_status = 0x01; // Example status for success
+ 80007ea:	2301      	movs	r3, #1
+ 80007ec:	737b      	strb	r3, [r7, #13]
+        bootloader_uart_write_data(&success_status, 1);
+ 80007ee:	f107 030d 	add.w	r3, r7, #13
+ 80007f2:	2101      	movs	r1, #1
+ 80007f4:	4618      	mov	r0, r3
+ 80007f6:	f000 f983 	bl	8000b00 <bootloader_uart_write_data>
+    else
+    {
+        // Checksum is incorrect, send a NACK
+        bootloader_send_nack();
+    }
+}
+ 80007fa:	e001      	b.n	8000800 <bootloader_handle_flash_erase+0x70>
+        bootloader_send_nack();
+ 80007fc:	f000 f9a6 	bl	8000b4c <bootloader_send_nack>
+}
+ 8000800:	bf00      	nop
+ 8000802:	3720      	adds	r7, #32
+ 8000804:	46bd      	mov	sp, r7
+ 8000806:	bd80      	pop	{r7, pc}
+
+08000808 <execute_mem_write>:
+
+static void execute_mem_write(uint8_t *pBuffer, uint32_t mem_address, uint32_t len)
+{
+ 8000808:	b580      	push	{r7, lr}
+ 800080a:	b086      	sub	sp, #24
+ 800080c:	af00      	add	r7, sp, #0
+ 800080e:	60f8      	str	r0, [r7, #12]
+ 8000810:	60b9      	str	r1, [r7, #8]
+ 8000812:	607a      	str	r2, [r7, #4]
+    // Wait for any ongoing flash operation to complete.
+    while (FLASH->SR & FLASH_SR_BSY)
+ 8000814:	bf00      	nop
+ 8000816:	4b1e      	ldr	r3, [pc, #120]	@ (8000890 <execute_mem_write+0x88>)
+ 8000818:	68db      	ldr	r3, [r3, #12]
+ 800081a:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 800081e:	2b00      	cmp	r3, #0
+ 8000820:	d1f9      	bne.n	8000816 <execute_mem_write+0xe>
+    {
+        // Do nothing, just wait.
+    }
+
+    // Unlock the flash for program operation.
+    flash_unlock();
+ 8000822:	f7ff ff15 	bl	8000650 <flash_unlock>
+
+    // Set the PG (Program) bit in the Control Register (CR).
+    FLASH->CR |= FLASH_CR_PG;
+ 8000826:	4b1a      	ldr	r3, [pc, #104]	@ (8000890 <execute_mem_write+0x88>)
+ 8000828:	691b      	ldr	r3, [r3, #16]
+ 800082a:	4a19      	ldr	r2, [pc, #100]	@ (8000890 <execute_mem_write+0x88>)
+ 800082c:	f043 0301 	orr.w	r3, r3, #1
+ 8000830:	6113      	str	r3, [r2, #16]
+
+    // Set the PSIZE (Program Size) bits for byte-by-byte programming (x8).
+    // For STM32F4, PSIZE bits (CR[9:8]) are cleared to 00 for x8 programming.
+    // Ensure they are reset to 00 if they were set to something else.
+    // The default reset value is 00, but explicit clearing is safer.
+    FLASH->CR &= ~(FLASH_CR_PSIZE); // Clear PSIZE bits
+ 8000832:	4b17      	ldr	r3, [pc, #92]	@ (8000890 <execute_mem_write+0x88>)
+ 8000834:	691b      	ldr	r3, [r3, #16]
+ 8000836:	4a16      	ldr	r2, [pc, #88]	@ (8000890 <execute_mem_write+0x88>)
+ 8000838:	f423 7340 	bic.w	r3, r3, #768	@ 0x300
+ 800083c:	6113      	str	r3, [r2, #16]
+
+    // Loop to program each byte.
+    for (uint32_t i = 0; i < len; i++)
+ 800083e:	2300      	movs	r3, #0
+ 8000840:	617b      	str	r3, [r7, #20]
+ 8000842:	e014      	b.n	800086e <execute_mem_write+0x66>
+    {
+        // Clear all error flags in the Status Register before each program operation.
+        FLASH->SR = (FLASH_SR_PGSERR | FLASH_SR_PGPERR | FLASH_SR_PGAERR |
+ 8000844:	4b12      	ldr	r3, [pc, #72]	@ (8000890 <execute_mem_write+0x88>)
+ 8000846:	22f1      	movs	r2, #241	@ 0xf1
+ 8000848:	60da      	str	r2, [r3, #12]
+                     FLASH_SR_WRPERR | FLASH_SR_EOP);
+
+        // Wait until the flash is not busy from a previous operation.
+        while (FLASH->SR & FLASH_SR_BSY) {}
+ 800084a:	bf00      	nop
+ 800084c:	4b10      	ldr	r3, [pc, #64]	@ (8000890 <execute_mem_write+0x88>)
+ 800084e:	68db      	ldr	r3, [r3, #12]
+ 8000850:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000854:	2b00      	cmp	r3, #0
+ 8000856:	d1f9      	bne.n	800084c <execute_mem_write+0x44>
+
+        // Write the data to the flash address.
+        // The address must be aligned to the program size (byte in this case).
+        *(volatile uint8_t*)(mem_address + i) = pBuffer[i];
+ 8000858:	68fa      	ldr	r2, [r7, #12]
+ 800085a:	697b      	ldr	r3, [r7, #20]
+ 800085c:	4413      	add	r3, r2
+ 800085e:	68b9      	ldr	r1, [r7, #8]
+ 8000860:	697a      	ldr	r2, [r7, #20]
+ 8000862:	440a      	add	r2, r1
+ 8000864:	781b      	ldrb	r3, [r3, #0]
+ 8000866:	7013      	strb	r3, [r2, #0]
+    for (uint32_t i = 0; i < len; i++)
+ 8000868:	697b      	ldr	r3, [r7, #20]
+ 800086a:	3301      	adds	r3, #1
+ 800086c:	617b      	str	r3, [r7, #20]
+ 800086e:	697a      	ldr	r2, [r7, #20]
+ 8000870:	687b      	ldr	r3, [r7, #4]
+ 8000872:	429a      	cmp	r2, r3
+ 8000874:	d3e6      	bcc.n	8000844 <execute_mem_write+0x3c>
+    }
+
+    // Clear the PG bit after all bytes are programmed.
+    FLASH->CR &= ~FLASH_CR_PG;
+ 8000876:	4b06      	ldr	r3, [pc, #24]	@ (8000890 <execute_mem_write+0x88>)
+ 8000878:	691b      	ldr	r3, [r3, #16]
+ 800087a:	4a05      	ldr	r2, [pc, #20]	@ (8000890 <execute_mem_write+0x88>)
+ 800087c:	f023 0301 	bic.w	r3, r3, #1
+ 8000880:	6113      	str	r3, [r2, #16]
+
+    // Lock the flash after the operation.
+    flash_lock();
+ 8000882:	f7ff fefd 	bl	8000680 <flash_lock>
+}
+ 8000886:	bf00      	nop
+ 8000888:	3718      	adds	r7, #24
+ 800088a:	46bd      	mov	sp, r7
+ 800088c:	bd80      	pop	{r7, pc}
+ 800088e:	bf00      	nop
+ 8000890:	40023c00 	.word	0x40023c00
+
+08000894 <bootloader_handle_mem_write>:
+
+void bootloader_handle_mem_write(uint8_t *pBuffer)
+{
+ 8000894:	b580      	push	{r7, lr}
+ 8000896:	b088      	sub	sp, #32
+ 8000898:	af00      	add	r7, sp, #0
+ 800089a:	6078      	str	r0, [r7, #4]
+	uint32_t command_packet_len = pBuffer[0] + 1;
+ 800089c:	687b      	ldr	r3, [r7, #4]
+ 800089e:	781b      	ldrb	r3, [r3, #0]
+ 80008a0:	3301      	adds	r3, #1
+ 80008a2:	61fb      	str	r3, [r7, #28]
+    uint32_t crc_value = 0;
+ 80008a4:	2300      	movs	r3, #0
+ 80008a6:	61bb      	str	r3, [r7, #24]
+    uint32_t calculated_crc = 0;
+ 80008a8:	2300      	movs	r3, #0
+ 80008aa:	617b      	str	r3, [r7, #20]
+
+    // 1. Verify the CRC of the received command packet
+    // The CRC to be verified is located at the end of the packet
+    crc_value = *(uint32_t *)(pBuffer + command_packet_len - 4);
+ 80008ac:	69fb      	ldr	r3, [r7, #28]
+ 80008ae:	3b04      	subs	r3, #4
+ 80008b0:	687a      	ldr	r2, [r7, #4]
+ 80008b2:	4413      	add	r3, r2
+ 80008b4:	681b      	ldr	r3, [r3, #0]
+ 80008b6:	61bb      	str	r3, [r7, #24]
+
+    // The data length for CRC calculation is the total length minus the 4 CRC bytes
+    uint32_t data_len = command_packet_len - 4;
+ 80008b8:	69fb      	ldr	r3, [r7, #28]
+ 80008ba:	3b04      	subs	r3, #4
+ 80008bc:	613b      	str	r3, [r7, #16]
+
+    calculated_crc = bootloader_verify_crc(pBuffer, data_len, crc_value);
+ 80008be:	69ba      	ldr	r2, [r7, #24]
+ 80008c0:	6939      	ldr	r1, [r7, #16]
+ 80008c2:	6878      	ldr	r0, [r7, #4]
+ 80008c4:	f7ff fd82 	bl	80003cc <bootloader_verify_crc>
+ 80008c8:	6178      	str	r0, [r7, #20]
+
+
+
+    uint32_t mem_address = 0;
+ 80008ca:	2300      	movs	r3, #0
+ 80008cc:	60fb      	str	r3, [r7, #12]
+    uint8_t payload_len = 0;
+ 80008ce:	2300      	movs	r3, #0
+ 80008d0:	72fb      	strb	r3, [r7, #11]
+    crc_value = *(uint32_t *)(pBuffer + data_len_for_crc);
+
+    calculated_crc_status = bootloader_verify_crc(pBuffer, data_len_for_crc, crc_value);*/
+    // Poll until transmit data register is empty
+
+    if (calculated_crc == VERIFY_CRC_SUCCESS)
+ 80008d2:	697b      	ldr	r3, [r7, #20]
+ 80008d4:	2b00      	cmp	r3, #0
+ 80008d6:	d132      	bne.n	800093e <bootloader_handle_mem_write+0xaa>
+    {
+
+
+
+        bootloader_send_ack(1);
+ 80008d8:	2001      	movs	r0, #1
+ 80008da:	f000 f94b 	bl	8000b74 <bootloader_send_ack>
+
+        // FIX: address starts at index 2, not 1
+        mem_address = (uint32_t)pBuffer[2] |
+ 80008de:	687b      	ldr	r3, [r7, #4]
+ 80008e0:	3302      	adds	r3, #2
+ 80008e2:	781b      	ldrb	r3, [r3, #0]
+ 80008e4:	461a      	mov	r2, r3
+                (uint32_t)pBuffer[3] << 8 |
+ 80008e6:	687b      	ldr	r3, [r7, #4]
+ 80008e8:	3303      	adds	r3, #3
+ 80008ea:	781b      	ldrb	r3, [r3, #0]
+ 80008ec:	021b      	lsls	r3, r3, #8
+        mem_address = (uint32_t)pBuffer[2] |
+ 80008ee:	431a      	orrs	r2, r3
+                (uint32_t)pBuffer[4] << 16 |
+ 80008f0:	687b      	ldr	r3, [r7, #4]
+ 80008f2:	3304      	adds	r3, #4
+ 80008f4:	781b      	ldrb	r3, [r3, #0]
+ 80008f6:	041b      	lsls	r3, r3, #16
+                (uint32_t)pBuffer[3] << 8 |
+ 80008f8:	431a      	orrs	r2, r3
+                (uint32_t)pBuffer[5] << 24;
+ 80008fa:	687b      	ldr	r3, [r7, #4]
+ 80008fc:	3305      	adds	r3, #5
+ 80008fe:	781b      	ldrb	r3, [r3, #0]
+ 8000900:	061b      	lsls	r3, r3, #24
+        mem_address = (uint32_t)pBuffer[2] |
+ 8000902:	4313      	orrs	r3, r2
+ 8000904:	60fb      	str	r3, [r7, #12]
+        // FIX: payload_len is at index 6
+        payload_len = pBuffer[6];
+ 8000906:	687b      	ldr	r3, [r7, #4]
+ 8000908:	799b      	ldrb	r3, [r3, #6]
+ 800090a:	72fb      	strb	r3, [r7, #11]
+
+        if (verify_address(mem_address) == 1)
+ 800090c:	68f8      	ldr	r0, [r7, #12]
+ 800090e:	f7ff fe17 	bl	8000540 <verify_address>
+ 8000912:	4603      	mov	r3, r0
+ 8000914:	2b01      	cmp	r3, #1
+ 8000916:	d10f      	bne.n	8000938 <bootloader_handle_mem_write+0xa4>
+        {
+            execute_mem_write(pBuffer + 7, mem_address, payload_len);
+ 8000918:	687b      	ldr	r3, [r7, #4]
+ 800091a:	3307      	adds	r3, #7
+ 800091c:	7afa      	ldrb	r2, [r7, #11]
+ 800091e:	68f9      	ldr	r1, [r7, #12]
+ 8000920:	4618      	mov	r0, r3
+ 8000922:	f7ff ff71 	bl	8000808 <execute_mem_write>
+
+            uint8_t success_status = 0x00;
+ 8000926:	2300      	movs	r3, #0
+ 8000928:	72bb      	strb	r3, [r7, #10]
+            bootloader_uart_write_data(&success_status, 1);
+ 800092a:	f107 030a 	add.w	r3, r7, #10
+ 800092e:	2101      	movs	r1, #1
+ 8000930:	4618      	mov	r0, r3
+ 8000932:	f000 f8e5 	bl	8000b00 <bootloader_uart_write_data>
+    }
+    else
+    {
+        bootloader_send_nack();
+    }
+}
+ 8000936:	e004      	b.n	8000942 <bootloader_handle_mem_write+0xae>
+            bootloader_send_nack();
+ 8000938:	f000 f908 	bl	8000b4c <bootloader_send_nack>
+}
+ 800093c:	e001      	b.n	8000942 <bootloader_handle_mem_write+0xae>
+        bootloader_send_nack();
+ 800093e:	f000 f905 	bl	8000b4c <bootloader_send_nack>
+}
+ 8000942:	bf00      	nop
+ 8000944:	3720      	adds	r7, #32
+ 8000946:	46bd      	mov	sp, r7
+ 8000948:	bd80      	pop	{r7, pc}
+	...
+
+0800094c <systick_msec_delay>:
+/*By default, the frequency of the MCU is 16Mhz*/
+#define ONE_MSEC_LOAD	 16000
+
+
+void systick_msec_delay(uint32_t delay)
+{
+ 800094c:	b480      	push	{r7}
+ 800094e:	b085      	sub	sp, #20
+ 8000950:	af00      	add	r7, sp, #0
+ 8000952:	6078      	str	r0, [r7, #4]
+
+    /*Load the timer with number of clock cycles per millisecond*/
+	SysTick->LOAD =  ONE_MSEC_LOAD - 1;
+ 8000954:	4b14      	ldr	r3, [pc, #80]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 8000956:	f643 627f 	movw	r2, #15999	@ 0x3e7f
+ 800095a:	605a      	str	r2, [r3, #4]
+
+    /*Clear systick current value register*/
+	SysTick->VAL = 0;
+ 800095c:	4b12      	ldr	r3, [pc, #72]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 800095e:	2200      	movs	r2, #0
+ 8000960:	609a      	str	r2, [r3, #8]
+
+    /*Select internal clock source*/
+	SysTick->CTRL = CTRL_CLCKSRC;
+ 8000962:	4b11      	ldr	r3, [pc, #68]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 8000964:	2204      	movs	r2, #4
+ 8000966:	601a      	str	r2, [r3, #0]
+
+	/*Enable systick*/
+	SysTick->CTRL |=CTRL_ENABLE;
+ 8000968:	4b0f      	ldr	r3, [pc, #60]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 800096a:	681b      	ldr	r3, [r3, #0]
+ 800096c:	4a0e      	ldr	r2, [pc, #56]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 800096e:	f043 0301 	orr.w	r3, r3, #1
+ 8000972:	6013      	str	r3, [r2, #0]
+
+	for(int i = 0; i < delay; i++)
+ 8000974:	2300      	movs	r3, #0
+ 8000976:	60fb      	str	r3, [r7, #12]
+ 8000978:	e009      	b.n	800098e <systick_msec_delay+0x42>
+	{
+		while((SysTick->CTRL & CTRL_COUNTFLAG) == 0){}
+ 800097a:	bf00      	nop
+ 800097c:	4b0a      	ldr	r3, [pc, #40]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 800097e:	681b      	ldr	r3, [r3, #0]
+ 8000980:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000984:	2b00      	cmp	r3, #0
+ 8000986:	d0f9      	beq.n	800097c <systick_msec_delay+0x30>
+	for(int i = 0; i < delay; i++)
+ 8000988:	68fb      	ldr	r3, [r7, #12]
+ 800098a:	3301      	adds	r3, #1
+ 800098c:	60fb      	str	r3, [r7, #12]
+ 800098e:	68fb      	ldr	r3, [r7, #12]
+ 8000990:	687a      	ldr	r2, [r7, #4]
+ 8000992:	429a      	cmp	r2, r3
+ 8000994:	d8f1      	bhi.n	800097a <systick_msec_delay+0x2e>
+	}
+
+	/*Disable systick*/
+	SysTick->CTRL = 0;
+ 8000996:	4b04      	ldr	r3, [pc, #16]	@ (80009a8 <systick_msec_delay+0x5c>)
+ 8000998:	2200      	movs	r2, #0
+ 800099a:	601a      	str	r2, [r3, #0]
+
+}
+ 800099c:	bf00      	nop
+ 800099e:	3714      	adds	r7, #20
+ 80009a0:	46bd      	mov	sp, r7
+ 80009a2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80009a6:	4770      	bx	lr
+ 80009a8:	e000e010 	.word	0xe000e010
+
+080009ac <uart_init>:
+	uart3_write(ch);
+	return ch;
+}
+
+void uart_init(void)
+{
+ 80009ac:	b580      	push	{r7, lr}
+ 80009ae:	af00      	add	r7, sp, #0
+	/*Enable clock access to GPIOA*/
+	RCC->AHB1ENR |= GPIOAEN;
+ 80009b0:	4b31      	ldr	r3, [pc, #196]	@ (8000a78 <uart_init+0xcc>)
+ 80009b2:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
+ 80009b4:	4a30      	ldr	r2, [pc, #192]	@ (8000a78 <uart_init+0xcc>)
+ 80009b6:	f043 0301 	orr.w	r3, r3, #1
+ 80009ba:	6313      	str	r3, [r2, #48]	@ 0x30
+
+	/*Set the mode of PA2 to alternate function mode*/
+	GPIOA->MODER &=~(1U<<4);
+ 80009bc:	4b2f      	ldr	r3, [pc, #188]	@ (8000a7c <uart_init+0xd0>)
+ 80009be:	681b      	ldr	r3, [r3, #0]
+ 80009c0:	4a2e      	ldr	r2, [pc, #184]	@ (8000a7c <uart_init+0xd0>)
+ 80009c2:	f023 0310 	bic.w	r3, r3, #16
+ 80009c6:	6013      	str	r3, [r2, #0]
+	GPIOA->MODER |=(1U<<5);
+ 80009c8:	4b2c      	ldr	r3, [pc, #176]	@ (8000a7c <uart_init+0xd0>)
+ 80009ca:	681b      	ldr	r3, [r3, #0]
+ 80009cc:	4a2b      	ldr	r2, [pc, #172]	@ (8000a7c <uart_init+0xd0>)
+ 80009ce:	f043 0320 	orr.w	r3, r3, #32
+ 80009d2:	6013      	str	r3, [r2, #0]
+	/*Set the mode of PA3 to alternate function mode*/
+	GPIOA->MODER &=~(1U<<6);
+ 80009d4:	4b29      	ldr	r3, [pc, #164]	@ (8000a7c <uart_init+0xd0>)
+ 80009d6:	681b      	ldr	r3, [r3, #0]
+ 80009d8:	4a28      	ldr	r2, [pc, #160]	@ (8000a7c <uart_init+0xd0>)
+ 80009da:	f023 0340 	bic.w	r3, r3, #64	@ 0x40
+ 80009de:	6013      	str	r3, [r2, #0]
+	GPIOA->MODER |=(1U<<7);
+ 80009e0:	4b26      	ldr	r3, [pc, #152]	@ (8000a7c <uart_init+0xd0>)
+ 80009e2:	681b      	ldr	r3, [r3, #0]
+ 80009e4:	4a25      	ldr	r2, [pc, #148]	@ (8000a7c <uart_init+0xd0>)
+ 80009e6:	f043 0380 	orr.w	r3, r3, #128	@ 0x80
+ 80009ea:	6013      	str	r3, [r2, #0]
+
+	/*Set alternate function type to AF7(UART2_TX) PA2*/
+	GPIOA->AFR[0] |=(1U<<8);
+ 80009ec:	4b23      	ldr	r3, [pc, #140]	@ (8000a7c <uart_init+0xd0>)
+ 80009ee:	6a1b      	ldr	r3, [r3, #32]
+ 80009f0:	4a22      	ldr	r2, [pc, #136]	@ (8000a7c <uart_init+0xd0>)
+ 80009f2:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 80009f6:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] |=(1U<<9);
+ 80009f8:	4b20      	ldr	r3, [pc, #128]	@ (8000a7c <uart_init+0xd0>)
+ 80009fa:	6a1b      	ldr	r3, [r3, #32]
+ 80009fc:	4a1f      	ldr	r2, [pc, #124]	@ (8000a7c <uart_init+0xd0>)
+ 80009fe:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 8000a02:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] |=(1U<<10);
+ 8000a04:	4b1d      	ldr	r3, [pc, #116]	@ (8000a7c <uart_init+0xd0>)
+ 8000a06:	6a1b      	ldr	r3, [r3, #32]
+ 8000a08:	4a1c      	ldr	r2, [pc, #112]	@ (8000a7c <uart_init+0xd0>)
+ 8000a0a:	f443 6380 	orr.w	r3, r3, #1024	@ 0x400
+ 8000a0e:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] &=~(1U<<11);
+ 8000a10:	4b1a      	ldr	r3, [pc, #104]	@ (8000a7c <uart_init+0xd0>)
+ 8000a12:	6a1b      	ldr	r3, [r3, #32]
+ 8000a14:	4a19      	ldr	r2, [pc, #100]	@ (8000a7c <uart_init+0xd0>)
+ 8000a16:	f423 6300 	bic.w	r3, r3, #2048	@ 0x800
+ 8000a1a:	6213      	str	r3, [r2, #32]
+
+	/*Set alternate function type to AF7(UART2_RX) PA3*/
+	GPIOA->AFR[0] |=(1U<<12);
+ 8000a1c:	4b17      	ldr	r3, [pc, #92]	@ (8000a7c <uart_init+0xd0>)
+ 8000a1e:	6a1b      	ldr	r3, [r3, #32]
+ 8000a20:	4a16      	ldr	r2, [pc, #88]	@ (8000a7c <uart_init+0xd0>)
+ 8000a22:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
+ 8000a26:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] |=(1U<<13);
+ 8000a28:	4b14      	ldr	r3, [pc, #80]	@ (8000a7c <uart_init+0xd0>)
+ 8000a2a:	6a1b      	ldr	r3, [r3, #32]
+ 8000a2c:	4a13      	ldr	r2, [pc, #76]	@ (8000a7c <uart_init+0xd0>)
+ 8000a2e:	f443 5300 	orr.w	r3, r3, #8192	@ 0x2000
+ 8000a32:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] |=(1U<<14);
+ 8000a34:	4b11      	ldr	r3, [pc, #68]	@ (8000a7c <uart_init+0xd0>)
+ 8000a36:	6a1b      	ldr	r3, [r3, #32]
+ 8000a38:	4a10      	ldr	r2, [pc, #64]	@ (8000a7c <uart_init+0xd0>)
+ 8000a3a:	f443 4380 	orr.w	r3, r3, #16384	@ 0x4000
+ 8000a3e:	6213      	str	r3, [r2, #32]
+	GPIOA->AFR[0] &=~(1U<<15);
+ 8000a40:	4b0e      	ldr	r3, [pc, #56]	@ (8000a7c <uart_init+0xd0>)
+ 8000a42:	6a1b      	ldr	r3, [r3, #32]
+ 8000a44:	4a0d      	ldr	r2, [pc, #52]	@ (8000a7c <uart_init+0xd0>)
+ 8000a46:	f423 4300 	bic.w	r3, r3, #32768	@ 0x8000
+ 8000a4a:	6213      	str	r3, [r2, #32]
+
+	/*Enable clock access to UART2*/
+     RCC->APB1ENR |=	UART2EN;
+ 8000a4c:	4b0a      	ldr	r3, [pc, #40]	@ (8000a78 <uart_init+0xcc>)
+ 8000a4e:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
+ 8000a50:	4a09      	ldr	r2, [pc, #36]	@ (8000a78 <uart_init+0xcc>)
+ 8000a52:	f443 3300 	orr.w	r3, r3, #131072	@ 0x20000
+ 8000a56:	6413      	str	r3, [r2, #64]	@ 0x40
+
+	/*Configure uart baudrate*/
+     uart_set_baudrate(APB1_CLK,DBG_UART_BAUDRATE);
+ 8000a58:	f44f 31e1 	mov.w	r1, #115200	@ 0x1c200
+ 8000a5c:	4808      	ldr	r0, [pc, #32]	@ (8000a80 <uart_init+0xd4>)
+ 8000a5e:	f000 f827 	bl	8000ab0 <uart_set_baudrate>
+
+	/*Configure transfer direction*/
+     USART2->CR1 = CR1_TE | CR1_RE;
+ 8000a62:	4b08      	ldr	r3, [pc, #32]	@ (8000a84 <uart_init+0xd8>)
+ 8000a64:	220c      	movs	r2, #12
+ 8000a66:	60da      	str	r2, [r3, #12]
+
+	/*Enable UART Module*/
+     USART2->CR1 |= CR1_UE;
+ 8000a68:	4b06      	ldr	r3, [pc, #24]	@ (8000a84 <uart_init+0xd8>)
+ 8000a6a:	68db      	ldr	r3, [r3, #12]
+ 8000a6c:	4a05      	ldr	r2, [pc, #20]	@ (8000a84 <uart_init+0xd8>)
+ 8000a6e:	f443 5300 	orr.w	r3, r3, #8192	@ 0x2000
+ 8000a72:	60d3      	str	r3, [r2, #12]
+}
+ 8000a74:	bf00      	nop
+ 8000a76:	bd80      	pop	{r7, pc}
+ 8000a78:	40023800 	.word	0x40023800
+ 8000a7c:	40020000 	.word	0x40020000
+ 8000a80:	00f42400 	.word	0x00f42400
+ 8000a84:	40004400 	.word	0x40004400
+
+08000a88 <compute_uart_bd>:
+	USART3->DR =(ch & 0xFF);
+}
+
+
+static uint16_t compute_uart_bd(uint32_t periph_clk,uint32_t baudrate)
+{
+ 8000a88:	b480      	push	{r7}
+ 8000a8a:	b083      	sub	sp, #12
+ 8000a8c:	af00      	add	r7, sp, #0
+ 8000a8e:	6078      	str	r0, [r7, #4]
+ 8000a90:	6039      	str	r1, [r7, #0]
+	return((periph_clk + (baudrate/2U))/baudrate);
+ 8000a92:	683b      	ldr	r3, [r7, #0]
+ 8000a94:	085a      	lsrs	r2, r3, #1
+ 8000a96:	687b      	ldr	r3, [r7, #4]
+ 8000a98:	441a      	add	r2, r3
+ 8000a9a:	683b      	ldr	r3, [r7, #0]
+ 8000a9c:	fbb2 f3f3 	udiv	r3, r2, r3
+ 8000aa0:	b29b      	uxth	r3, r3
+}
+ 8000aa2:	4618      	mov	r0, r3
+ 8000aa4:	370c      	adds	r7, #12
+ 8000aa6:	46bd      	mov	sp, r7
+ 8000aa8:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000aac:	4770      	bx	lr
+	...
+
+08000ab0 <uart_set_baudrate>:
+
+static void uart_set_baudrate(uint32_t periph_clk,uint32_t baudrate)
+{
+ 8000ab0:	b580      	push	{r7, lr}
+ 8000ab2:	b082      	sub	sp, #8
+ 8000ab4:	af00      	add	r7, sp, #0
+ 8000ab6:	6078      	str	r0, [r7, #4]
+ 8000ab8:	6039      	str	r1, [r7, #0]
+	USART2->BRR = compute_uart_bd(periph_clk,baudrate);
+ 8000aba:	6839      	ldr	r1, [r7, #0]
+ 8000abc:	6878      	ldr	r0, [r7, #4]
+ 8000abe:	f7ff ffe3 	bl	8000a88 <compute_uart_bd>
+ 8000ac2:	4603      	mov	r3, r0
+ 8000ac4:	461a      	mov	r2, r3
+ 8000ac6:	4b03      	ldr	r3, [pc, #12]	@ (8000ad4 <uart_set_baudrate+0x24>)
+ 8000ac8:	609a      	str	r2, [r3, #8]
+}
+ 8000aca:	bf00      	nop
+ 8000acc:	3708      	adds	r7, #8
+ 8000ace:	46bd      	mov	sp, r7
+ 8000ad0:	bd80      	pop	{r7, pc}
+ 8000ad2:	bf00      	nop
+ 8000ad4:	40004400 	.word	0x40004400
+
+08000ad8 <uart_read>:
+
+uint8_t uart_read(void)
+{
+ 8000ad8:	b480      	push	{r7}
+ 8000ada:	af00      	add	r7, sp, #0
+    // Wait until receive data register is not empty
+    while(!(USART2->SR & SR_RXNE)){}
+ 8000adc:	bf00      	nop
+ 8000ade:	4b07      	ldr	r3, [pc, #28]	@ (8000afc <uart_read+0x24>)
+ 8000ae0:	681b      	ldr	r3, [r3, #0]
+ 8000ae2:	f003 0320 	and.w	r3, r3, #32
+ 8000ae6:	2b00      	cmp	r3, #0
+ 8000ae8:	d0f9      	beq.n	8000ade <uart_read+0x6>
+
+    // Read data from receive data register
+    return (uint8_t)USART2->DR;
+ 8000aea:	4b04      	ldr	r3, [pc, #16]	@ (8000afc <uart_read+0x24>)
+ 8000aec:	685b      	ldr	r3, [r3, #4]
+ 8000aee:	b2db      	uxtb	r3, r3
+}
+ 8000af0:	4618      	mov	r0, r3
+ 8000af2:	46bd      	mov	sp, r7
+ 8000af4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000af8:	4770      	bx	lr
+ 8000afa:	bf00      	nop
+ 8000afc:	40004400 	.word	0x40004400
+
+08000b00 <bootloader_uart_write_data>:
+void bootloader_uart_write_data(uint8_t *pBuffer, uint32_t len)
+{
+ 8000b00:	b480      	push	{r7}
+ 8000b02:	b085      	sub	sp, #20
+ 8000b04:	af00      	add	r7, sp, #0
+ 8000b06:	6078      	str	r0, [r7, #4]
+ 8000b08:	6039      	str	r1, [r7, #0]
+    for (uint32_t i = 0; i < len; i++)
+ 8000b0a:	2300      	movs	r3, #0
+ 8000b0c:	60fb      	str	r3, [r7, #12]
+ 8000b0e:	e00f      	b.n	8000b30 <bootloader_uart_write_data+0x30>
+    {
+        // Poll until transmit data register is empty
+        while (!(USART2->SR & SR_TXE)) {}
+ 8000b10:	bf00      	nop
+ 8000b12:	4b0d      	ldr	r3, [pc, #52]	@ (8000b48 <bootloader_uart_write_data+0x48>)
+ 8000b14:	681b      	ldr	r3, [r3, #0]
+ 8000b16:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 8000b1a:	2b00      	cmp	r3, #0
+ 8000b1c:	d0f9      	beq.n	8000b12 <bootloader_uart_write_data+0x12>
+
+        // Write the data byte to the transmit register
+        USART2->DR = (pBuffer[i] & 0xFF);
+ 8000b1e:	687a      	ldr	r2, [r7, #4]
+ 8000b20:	68fb      	ldr	r3, [r7, #12]
+ 8000b22:	4413      	add	r3, r2
+ 8000b24:	781a      	ldrb	r2, [r3, #0]
+ 8000b26:	4b08      	ldr	r3, [pc, #32]	@ (8000b48 <bootloader_uart_write_data+0x48>)
+ 8000b28:	605a      	str	r2, [r3, #4]
+    for (uint32_t i = 0; i < len; i++)
+ 8000b2a:	68fb      	ldr	r3, [r7, #12]
+ 8000b2c:	3301      	adds	r3, #1
+ 8000b2e:	60fb      	str	r3, [r7, #12]
+ 8000b30:	68fa      	ldr	r2, [r7, #12]
+ 8000b32:	683b      	ldr	r3, [r7, #0]
+ 8000b34:	429a      	cmp	r2, r3
+ 8000b36:	d3eb      	bcc.n	8000b10 <bootloader_uart_write_data+0x10>
+    }
+}
+ 8000b38:	bf00      	nop
+ 8000b3a:	bf00      	nop
+ 8000b3c:	3714      	adds	r7, #20
+ 8000b3e:	46bd      	mov	sp, r7
+ 8000b40:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000b44:	4770      	bx	lr
+ 8000b46:	bf00      	nop
+ 8000b48:	40004400 	.word	0x40004400
+
+08000b4c <bootloader_send_nack>:
+
+void bootloader_send_nack(void)
+{
+ 8000b4c:	b480      	push	{r7}
+ 8000b4e:	af00      	add	r7, sp, #0
+    // Poll until transmit data register is empty
+    while (!(USART2->SR & SR_TXE)) {}
+ 8000b50:	bf00      	nop
+ 8000b52:	4b07      	ldr	r3, [pc, #28]	@ (8000b70 <bootloader_send_nack+0x24>)
+ 8000b54:	681b      	ldr	r3, [r3, #0]
+ 8000b56:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 8000b5a:	2b00      	cmp	r3, #0
+ 8000b5c:	d0f9      	beq.n	8000b52 <bootloader_send_nack+0x6>
+
+    // Write the NACK byte to the transmit register
+    USART2->DR = (BL_NACK & 0xFF);
+ 8000b5e:	4b04      	ldr	r3, [pc, #16]	@ (8000b70 <bootloader_send_nack+0x24>)
+ 8000b60:	227f      	movs	r2, #127	@ 0x7f
+ 8000b62:	605a      	str	r2, [r3, #4]
+}
+ 8000b64:	bf00      	nop
+ 8000b66:	46bd      	mov	sp, r7
+ 8000b68:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000b6c:	4770      	bx	lr
+ 8000b6e:	bf00      	nop
+ 8000b70:	40004400 	.word	0x40004400
+
+08000b74 <bootloader_send_ack>:
+
+void bootloader_send_ack(uint8_t follow_len)
+{
+ 8000b74:	b480      	push	{r7}
+ 8000b76:	b083      	sub	sp, #12
+ 8000b78:	af00      	add	r7, sp, #0
+ 8000b7a:	4603      	mov	r3, r0
+ 8000b7c:	71fb      	strb	r3, [r7, #7]
+    // Send the ACK byte
+    while (!(USART2->SR & SR_TXE)) {}
+ 8000b7e:	bf00      	nop
+ 8000b80:	4b0c      	ldr	r3, [pc, #48]	@ (8000bb4 <bootloader_send_ack+0x40>)
+ 8000b82:	681b      	ldr	r3, [r3, #0]
+ 8000b84:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 8000b88:	2b00      	cmp	r3, #0
+ 8000b8a:	d0f9      	beq.n	8000b80 <bootloader_send_ack+0xc>
+    USART2->DR = (BL_ACK & 0xFF);
+ 8000b8c:	4b09      	ldr	r3, [pc, #36]	@ (8000bb4 <bootloader_send_ack+0x40>)
+ 8000b8e:	22a5      	movs	r2, #165	@ 0xa5
+ 8000b90:	605a      	str	r2, [r3, #4]
+
+    // Send the follow_len byte
+    while (!(USART2->SR & SR_TXE)) {}
+ 8000b92:	bf00      	nop
+ 8000b94:	4b07      	ldr	r3, [pc, #28]	@ (8000bb4 <bootloader_send_ack+0x40>)
+ 8000b96:	681b      	ldr	r3, [r3, #0]
+ 8000b98:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 8000b9c:	2b00      	cmp	r3, #0
+ 8000b9e:	d0f9      	beq.n	8000b94 <bootloader_send_ack+0x20>
+    USART2->DR = (follow_len & 0xFF);
+ 8000ba0:	4a04      	ldr	r2, [pc, #16]	@ (8000bb4 <bootloader_send_ack+0x40>)
+ 8000ba2:	79fb      	ldrb	r3, [r7, #7]
+ 8000ba4:	6053      	str	r3, [r2, #4]
+}
+ 8000ba6:	bf00      	nop
+ 8000ba8:	370c      	adds	r7, #12
+ 8000baa:	46bd      	mov	sp, r7
+ 8000bac:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000bb0:	4770      	bx	lr
+ 8000bb2:	bf00      	nop
+ 8000bb4:	40004400 	.word	0x40004400
+
+08000bb8 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 8000bb8:	480d      	ldr	r0, [pc, #52]	@ (8000bf0 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 8000bba:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8000bbc:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000bc0:	480c      	ldr	r0, [pc, #48]	@ (8000bf4 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8000bc2:	490d      	ldr	r1, [pc, #52]	@ (8000bf8 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8000bc4:	4a0d      	ldr	r2, [pc, #52]	@ (8000bfc <LoopForever+0xe>)
+  movs r3, #0
+ 8000bc6:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 8000bc8:	e002      	b.n	8000bd0 <LoopCopyDataInit>
+
+08000bca <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 8000bca:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8000bcc:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8000bce:	3304      	adds	r3, #4
+
+08000bd0 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000bd0:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 8000bd2:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 8000bd4:	d3f9      	bcc.n	8000bca <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 8000bd6:	4a0a      	ldr	r2, [pc, #40]	@ (8000c00 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 8000bd8:	4c0a      	ldr	r4, [pc, #40]	@ (8000c04 <LoopForever+0x16>)
+  movs r3, #0
+ 8000bda:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 8000bdc:	e001      	b.n	8000be2 <LoopFillZerobss>
+
+08000bde <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 8000bde:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8000be0:	3204      	adds	r2, #4
+
+08000be2 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 8000be2:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 8000be4:	d3fb      	bcc.n	8000bde <FillZerobss>
+
+
+/* Call static constructors */
+  bl __libc_init_array
+ 8000be6:	f000 f819 	bl	8000c1c <__libc_init_array>
+/* Call the application's entry point.*/
+
+  bl main
+ 8000bea:	f7ff faff 	bl	80001ec <main>
+
+08000bee <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 8000bee:	e7fe      	b.n	8000bee <LoopForever>
+  ldr   r0, =_estack
+ 8000bf0:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 8000bf4:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000bf8:	2000000c 	.word	0x2000000c
+  ldr r2, =_sidata
+ 8000bfc:	08000c84 	.word	0x08000c84
+  ldr r2, =_sbss
+ 8000c00:	2000000c 	.word	0x2000000c
+  ldr r4, =_ebss
+ 8000c04:	20000128 	.word	0x20000128
+
+08000c08 <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000c08:	e7fe      	b.n	8000c08 <ADC_IRQHandler>
+
+08000c0a <memset>:
+ 8000c0a:	4402      	add	r2, r0
+ 8000c0c:	4603      	mov	r3, r0
+ 8000c0e:	4293      	cmp	r3, r2
+ 8000c10:	d100      	bne.n	8000c14 <memset+0xa>
+ 8000c12:	4770      	bx	lr
+ 8000c14:	f803 1b01 	strb.w	r1, [r3], #1
+ 8000c18:	e7f9      	b.n	8000c0e <memset+0x4>
+	...
+
+08000c1c <__libc_init_array>:
+ 8000c1c:	b570      	push	{r4, r5, r6, lr}
+ 8000c1e:	4d0d      	ldr	r5, [pc, #52]	@ (8000c54 <__libc_init_array+0x38>)
+ 8000c20:	4c0d      	ldr	r4, [pc, #52]	@ (8000c58 <__libc_init_array+0x3c>)
+ 8000c22:	1b64      	subs	r4, r4, r5
+ 8000c24:	10a4      	asrs	r4, r4, #2
+ 8000c26:	2600      	movs	r6, #0
+ 8000c28:	42a6      	cmp	r6, r4
+ 8000c2a:	d109      	bne.n	8000c40 <__libc_init_array+0x24>
+ 8000c2c:	4d0b      	ldr	r5, [pc, #44]	@ (8000c5c <__libc_init_array+0x40>)
+ 8000c2e:	4c0c      	ldr	r4, [pc, #48]	@ (8000c60 <__libc_init_array+0x44>)
+ 8000c30:	f000 f818 	bl	8000c64 <_init>
+ 8000c34:	1b64      	subs	r4, r4, r5
+ 8000c36:	10a4      	asrs	r4, r4, #2
+ 8000c38:	2600      	movs	r6, #0
+ 8000c3a:	42a6      	cmp	r6, r4
+ 8000c3c:	d105      	bne.n	8000c4a <__libc_init_array+0x2e>
+ 8000c3e:	bd70      	pop	{r4, r5, r6, pc}
+ 8000c40:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000c44:	4798      	blx	r3
+ 8000c46:	3601      	adds	r6, #1
+ 8000c48:	e7ee      	b.n	8000c28 <__libc_init_array+0xc>
+ 8000c4a:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000c4e:	4798      	blx	r3
+ 8000c50:	3601      	adds	r6, #1
+ 8000c52:	e7f2      	b.n	8000c3a <__libc_init_array+0x1e>
+ 8000c54:	08000c7c 	.word	0x08000c7c
+ 8000c58:	08000c7c 	.word	0x08000c7c
+ 8000c5c:	08000c7c 	.word	0x08000c7c
+ 8000c60:	08000c80 	.word	0x08000c80
+
+08000c64 <_init>:
+ 8000c64:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000c66:	bf00      	nop
+ 8000c68:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000c6a:	bc08      	pop	{r3}
+ 8000c6c:	469e      	mov	lr, r3
+ 8000c6e:	4770      	bx	lr
+
+08000c70 <_fini>:
+ 8000c70:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000c72:	bf00      	nop
+ 8000c74:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000c76:	bc08      	pop	{r3}
+ 8000c78:	469e      	mov	lr, r3
+ 8000c7a:	4770      	bx	lr

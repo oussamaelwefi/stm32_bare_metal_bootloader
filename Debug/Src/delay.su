@@ -1,0 +1,4 @@
+../Src/delay.c:29:6:systick_init_ms	16	static,ignoring_inline_asm
+../Src/delay.c:38:10:millis	4	static,ignoring_inline_asm
+../Src/delay.c:46:6:SysTick_Handler	4	static
+../Src/delay.c:51:6:delay	24	static
